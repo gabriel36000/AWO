@@ -4,7 +4,20 @@ using UnityEngine;
 
 public class LaserDamage : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col)
+
 	{
-		ShieldBarScript.Shield -= 30f;
-	}
+         {
+ 
+          
+            if (ShieldBarScript.currentShield < 0)
+            {
+                HealthBar.currentHealth -= 10f;
+            }
+            else
+            {
+                ShieldBarScript.currentShield -= 30f;
+            }
+            
+        }
+    }
 }
