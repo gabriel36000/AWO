@@ -9,6 +9,7 @@ public class ShieldBarScript : MonoBehaviour {
 	public int maxShield = 1000;
 	public static float currentShield;
     public TextMeshProUGUI shield;
+    public GameObject bubbleShield;
 
 
 	// Use this for initialization
@@ -26,7 +27,16 @@ public class ShieldBarScript : MonoBehaviour {
 	void FixedUpdate () {
 		ShieldBarColor.fillAmount = currentShield / maxShield;
         shield.text = "Shield:" + (currentShield);
-
+        effectShield();
         
 	}
+    public void effectShield() {
+        if (currentShield <= 0) {
+            bubbleShield.SetActive(false);
+        }
+        else {
+            bubbleShield.SetActive(true);
+        }
+    }
 }
+
