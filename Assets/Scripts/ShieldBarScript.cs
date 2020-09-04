@@ -10,6 +10,9 @@ public class ShieldBarScript : MonoBehaviour {
 	public static float currentShield;
     public TextMeshProUGUI shield;
     public GameObject bubbleShield;
+    public GameObject lighting;
+    public GameObject lightingShieldDown;
+    
 
 
 	// Use this for initialization
@@ -33,9 +36,13 @@ public class ShieldBarScript : MonoBehaviour {
     public void effectShield() {
         if (currentShield <= 0) {
             bubbleShield.SetActive(false);
+            lighting.SetActive(false);
+            lightingShieldDown.SetActive(true);
         }
         else {
             bubbleShield.SetActive(true);
+            lighting.SetActive(true);
+            lightingShieldDown.SetActive(false);
         }
     }
 }
