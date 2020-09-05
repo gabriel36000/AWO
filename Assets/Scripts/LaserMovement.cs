@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LaserMovement : MonoBehaviour
 {
-	public int moveSpeed = 20;
+	public int moveSpeed = 40;
 	// Use this for initialization
 	void Start()
 	{

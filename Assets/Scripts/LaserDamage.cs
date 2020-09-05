@@ -3,21 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LaserDamage : MonoBehaviour {
-	void OnTriggerEnter2D(Collider2D col)
+    public int damage;
+	void OnTriggerEnter2D(Collider2D col) { 
 
-	{
-         {
- 
-          
-            if (ShieldBarScript.currentShield < 0)
-            {
-                HealthBar.currentHealth -= 10f;
-            }
-            else
-            {
-                ShieldBarScript.currentShield -= 30f;
-            }
-            
-        }
+         if(col.transform.tag == "Enemy") {
+            col.GetComponent<Enemy>().currentHealth -= damage;
+            Destroy(gameObject);
+         }
     }
 }

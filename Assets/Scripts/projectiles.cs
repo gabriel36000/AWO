@@ -6,6 +6,7 @@ public class projectiles : MonoBehaviour {
 	private float projectileVelocity;
 	private List<GameObject> Projectiles = new List<GameObject>();
 	public GameObject projectilePrefab;
+    public AudioClip laserSound;
 	void Start () {
 		projectileVelocity = 0;
 	}
@@ -15,6 +16,7 @@ public class projectiles : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0)) {
 			GameObject bullet = (GameObject)Instantiate(projectilePrefab, transform.position, transform.rotation);
 			Projectiles.Add(bullet);
+            AudioSource.PlayClipAtPoint(laserSound, transform.position);
 		}
 		for (int i = 0; i <Projectiles.Count; i++) {
 			GameObject goBullet = Projectiles[i];

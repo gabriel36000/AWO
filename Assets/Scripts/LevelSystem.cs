@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 
 public class LevelSystem : MonoBehaviour {
-    int xp = 0;
+    public int xp = 0;
     int level = 0;
     int[] xpNeeded = { 100, 200, 300, 400 };
     int[] levelHealth = { 10, 30, 50, 100 };
