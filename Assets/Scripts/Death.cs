@@ -11,14 +11,12 @@ public class Death : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if (HealthBar.currentHealth <= 0)
-        {
+    void Update() {
+        if (HealthBar.currentHealth <= 0) {
             Debug.Log("Death");
             Destroy(gameObject);
         }
-             
+
     }
 }
 

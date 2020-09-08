@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class LevelSystem : MonoBehaviour {
     public int xp = 0;
@@ -12,15 +13,18 @@ public class LevelSystem : MonoBehaviour {
     public TextMeshPro levelText;
     public HealthBar healthBar;
     public ShieldBarScript shieldBar;
+    public Image xpBackground;
     BoxCollider2D bx;
 
 
     void Start() {
         bx = GetComponent<BoxCollider2D>();
+        //xpBackground.fillAmount = xp / xpNeeded;
     }
 
     void CheckLevel() {
         if (level > xpNeeded.Length - 1) {
+
             return;
         }
         if (xp >= xpNeeded[level]) {
@@ -30,6 +34,17 @@ public class LevelSystem : MonoBehaviour {
         }
     }
     void Update() {
+        
+
+        if(level == 0) {
+          xpBackground.fillAmount = (float)(xp) / (xpNeeded[level]);
+
+        }
+        else {
+            
+            xpBackground.fillAmount = (float)(xp - xpNeeded[level - 1]) / (xpNeeded[level] - xpNeeded[level - 1]);
+        }
+        
         CheckLevel();
         if (Input.GetKeyDown(KeyCode.K)) {
             xp += 10;
@@ -45,7 +60,7 @@ public class LevelSystem : MonoBehaviour {
     }
     private void OnTriggerEnter2D(Collider2D collision) {
         if(collision.tag == "XP") {
-            xp += 20;
+            xp += 40;
             print(xp);
             Destroy(collision.gameObject);
         }

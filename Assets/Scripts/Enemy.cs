@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour {
     public float speed;
@@ -13,6 +15,10 @@ public class Enemy : MonoBehaviour {
     public int maxHealth;
     public int xpValue;
     LevelSystem levelSystem;            //store scripts 
+    public GameObject explosion;
+    public TextMeshPro enemyName;
+    public Image enemyHealth;
+    public int bulletDamage;
 
 
 
@@ -24,19 +30,18 @@ public class Enemy : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        enemyHealth.fillAmount = (float)currentHealth / maxHealth;
         RotateTowards(target.position);
         if (Vector2.Distance(transform.position, target.position) > stoppingDistance) {
-
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime); // Move towards player
             speed = Mathf.Lerp(speed, maxSpeed, 0.01f); // Speed increase by 0.01 unitl maxSpeed
-
-
         }
 
         else {
             speed = Mathf.Lerp(speed, 0f, 0.01f);
         }
         death();
+       
     }
     private void RotateTowards(Vector2 target) {
         var offset = 270f;
@@ -50,6 +55,8 @@ public class Enemy : MonoBehaviour {
     private void death() {
         if (currentHealth <= 0 ) {
             levelSystem.xp += xpValue;
+            explosion.SetActive(true);
+            Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
 
             

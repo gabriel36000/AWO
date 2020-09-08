@@ -7,7 +7,7 @@ using TMPro;
 public class ShieldBarScript : MonoBehaviour {
 	Image ShieldBarColor;
 	public int maxShield = 1000;
-	public static float currentShield;
+	public static int currentShield;
     public TextMeshProUGUI shield;
     public GameObject bubbleShield;
     public GameObject lighting;
@@ -28,7 +28,7 @@ public class ShieldBarScript : MonoBehaviour {
     }
 	// Update is called once per frame
 	void FixedUpdate () {
-		ShieldBarColor.fillAmount = currentShield / maxShield;
+		ShieldBarColor.fillAmount = (float)currentShield / maxShield;
         shield.text = "Shield:" + (currentShield);
         effectShield();
         

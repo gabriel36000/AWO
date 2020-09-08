@@ -16,5 +16,6 @@ public class LaserMovement : MonoBehaviour
 	{
 		transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
 
+
 	}
 }
