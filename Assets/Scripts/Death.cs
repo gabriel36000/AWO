@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Death : MonoBehaviour
 {
-    // Start is called before the first frame update
+    public GameObject button;
+    public GameObject player;
     void Start()
     {
 
@@ -14,7 +15,16 @@ public class Death : MonoBehaviour
     void Update() {
         if (HealthBar.currentHealth <= 0) {
             Debug.Log("Death");
-            Destroy(gameObject);
+            LevelSystem peanlty0 = new LevelSystem();
+            peanlty0.penalty();
+            //Destroy(gameObject); Instead of destorying the GameObject, disable it in order for the player to respawn properly.
+            player.SetActive(false);
+            button.SetActive(true);
+            
+        }
+        else {
+            button.SetActive(false);
+            
         }
 
     }

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class LevelSystem : MonoBehaviour {
     public int xp = 0;
-    int level = 0;
+    public int level = 0;
     int[] xpNeeded = { 100, 200, 300, 400 };
     int[] levelHealth = { 10, 30, 50, 100 };
     int[] levelShield = { 100, 200, 300, 400 };
@@ -19,7 +19,7 @@ public class LevelSystem : MonoBehaviour {
 
     void Start() {
         bx = GetComponent<BoxCollider2D>();
-        //xpBackground.fillAmount = xp / xpNeeded;
+        
     }
 
     void CheckLevel() {
@@ -34,9 +34,9 @@ public class LevelSystem : MonoBehaviour {
         }
     }
     void Update() {
-        
 
-        if(level == 0) {
+        
+        if (level == 0) {
           xpBackground.fillAmount = (float)(xp) / (xpNeeded[level]);
 
         }
@@ -50,6 +50,7 @@ public class LevelSystem : MonoBehaviour {
             xp += 10;
             print(xp);
         }
+        
 
     }
     void Levelup() {
@@ -63,6 +64,14 @@ public class LevelSystem : MonoBehaviour {
             xp += 40;
             print(xp);
             Destroy(collision.gameObject);
+        }
+    }
+    public void penalty() {
+        if (HealthBar.currentHealth <= 0) {
+            xp /= 2;
+            
+            
+            
         }
     }
 }

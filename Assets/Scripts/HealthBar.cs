@@ -7,8 +7,8 @@ using TMPro;
 public class HealthBar : MonoBehaviour
 {
     Image HealthBarColor;
-    public int maxHealth = 100;
-    public static float currentHealth;
+    public static int maxHealth = 100;
+    public static int currentHealth;
     public Death death;
     public TextMeshProUGUI health;
     public GameObject smoke;
@@ -30,7 +30,7 @@ public class HealthBar : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        HealthBarColor.fillAmount = currentHealth / maxHealth;
+        HealthBarColor.fillAmount = (float)currentHealth / maxHealth;
         health.text = "HP: " + (currentHealth);
         Smoke();
 
