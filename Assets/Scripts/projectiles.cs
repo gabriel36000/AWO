@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.EventSystems;
 public class projectiles : MonoBehaviour {
 	private float projectileVelocity;
 	private List<GameObject> Projectiles = new List<GameObject>();
@@ -14,6 +14,8 @@ public class projectiles : MonoBehaviour {
 
 	void Update() {
 		if (Input.GetMouseButtonDown(0)) {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
 			GameObject bullet = (GameObject)Instantiate(projectilePrefab, transform.position, transform.rotation);
 			Projectiles.Add(bullet);
             AudioSource.PlayClipAtPoint(laserSound, transform.position);
