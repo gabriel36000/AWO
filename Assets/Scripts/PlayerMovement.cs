@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxSpeed;
     public float acceleration;
     public float MaxBoostspeed;
+    
 
 	// Update is called once per frame
 	void FixedUpdate() { 
@@ -43,6 +44,11 @@ public class PlayerMovement : MonoBehaviour
         {
             SpeedBoost = Mathf.Lerp(Boost, 0f, 0.01f);
         }
+
+       
     }
+    
+    
+
   
 }

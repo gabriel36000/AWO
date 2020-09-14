@@ -15,8 +15,8 @@ public class Respawn : MonoBehaviour
         HealthBar.currentHealth = HealthBar.maxHealth;
         ShieldBarScript shield = new ShieldBarScript();
         ShieldBarScript.currentShield = shield.maxShield;
-        LevelSystem peanlty0 = new LevelSystem();
-        peanlty0.penalty();
+       // LevelSystem peanlty0 = new LevelSystem();
+       // peanlty0.penalty();
         player.SetActive(true);
     }
         

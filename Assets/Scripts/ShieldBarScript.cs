@@ -12,6 +12,8 @@ public class ShieldBarScript : MonoBehaviour {
     public GameObject bubbleShield;
     public GameObject lighting;
     public GameObject lightingShieldDown;
+    private float regenrate = 20f;
+    public float lastTime;
     
 
 
@@ -19,6 +21,7 @@ public class ShieldBarScript : MonoBehaviour {
 	void Start () {
 		ShieldBarColor = GetComponent<Image> ();
 		currentShield = maxShield;
+        lastTime = Time.time;
 
 	}
 	
@@ -31,6 +34,7 @@ public class ShieldBarScript : MonoBehaviour {
 		ShieldBarColor.fillAmount = (float)currentShield / maxShield;
         shield.text = "Shield:" + (currentShield);
         effectShield();
+        regenerating();
         
 	}
     public void effectShield() {
@@ -45,5 +49,13 @@ public class ShieldBarScript : MonoBehaviour {
             lightingShieldDown.SetActive(false);
         }
     }
+
+    public void regenerating() {
+        if((Time.time > lastTime + regenrate) && (currentShield < maxShield)) {
+            currentShield += maxShield / 10;
+            lastTime = Time.time;
+        }
+    }
+
 }
 

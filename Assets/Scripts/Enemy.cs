@@ -19,6 +19,9 @@ public class Enemy : MonoBehaviour {
     public TextMeshPro enemyName;
     public Image enemyHealth;
     public int bulletDamage;
+    
+    
+    
 
 
 
@@ -26,6 +29,10 @@ public class Enemy : MonoBehaviour {
         target = player.GetComponent<Transform>();
         currentHealth = maxHealth;
         levelSystem = player.GetComponent<LevelSystem>(); //access a public variable from different script
+        
+        
+
+        
     }
 
     // Update is called once per frame
@@ -54,12 +61,15 @@ public class Enemy : MonoBehaviour {
 
     private void death() {
         if (currentHealth <= 0 ) {
+            
             levelSystem.xp += xpValue;
             explosion.SetActive(true);
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
-
             
+            
+
+
         }           
     }
 }
