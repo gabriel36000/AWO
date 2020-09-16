@@ -8,15 +8,24 @@ public class Respawn : MonoBehaviour
     public GameObject player;
     public GameObject respawnPrefab;
     public GameObject[] respawns;
+    public GameObject healthBar;
+    public GameObject shieldBar;
     public Button respawnButton;
+    public ShieldBarScript shield;
+    public HealthBar health;
+    public void Start() {
+        player = GameObject.Find("Player");
+        healthBar = GameObject.Find("HealthBarColor");
+        shieldBar = GameObject.Find("ShieldBarColor");
+        shield = shieldBar.GetComponent<ShieldBarScript>();
+        health = healthBar.GetComponent<HealthBar>();
+
+    }
 
     public void OnClick() {
         player.transform.position = respawnPrefab.transform.position;
-        HealthBar.currentHealth = HealthBar.maxHealth;
-        ShieldBarScript shield = new ShieldBarScript();
-        ShieldBarScript.currentShield = shield.maxShield;
-       // LevelSystem peanlty0 = new LevelSystem();
-       // peanlty0.penalty();
+        health.currentHealth = health.maxHealth;
+        shield.currentShield = shield.maxShield;
         player.SetActive(true);
     }
         

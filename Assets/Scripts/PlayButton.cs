@@ -9,4 +9,12 @@ public class PlayButton : MonoBehaviour {
     {
         SceneManager.LoadScene("Movement");
     }
+    public void MainMenu() {
+        SceneManager.LoadScene("LoginScreen");
+    }
+    public void Quit() {
+        
+            UnityEditor.EditorApplication.isPlaying = false;
+            Application.Quit();
+    }
 }

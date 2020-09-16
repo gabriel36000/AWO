@@ -6,9 +6,9 @@ using TMPro;
 
 public class HealthBar : MonoBehaviour {
     Image HealthBarColor;
-    public static int maxHealth = 100;
-    public static int currentHealth;
-    public Death death;
+    public int maxHealth = 100;
+    public int currentHealth;
+    //public Death death;
     public TextMeshProUGUI health;
     public GameObject smoke;
     private float regenrate = 1f;
@@ -34,6 +34,7 @@ public class HealthBar : MonoBehaviour {
         health.text = "HP: " + (currentHealth);
         Smoke();
         regenerating();
+
 
     }
     public void Smoke() {

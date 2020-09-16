@@ -14,11 +14,17 @@ public class LevelSystem : MonoBehaviour {
     public HealthBar healthBar;
     public ShieldBarScript shieldBar;
     public Image xpBackground;
+    public GameObject playerHealth;
     BoxCollider2D bx;
+    HealthBar health;
 
 
     void Start() {
+        playerHealth = GameObject.Find("HealthBarColor");
         bx = GetComponent<BoxCollider2D>();
+        health = playerHealth.GetComponent<HealthBar>();
+        
+        
         
     }
 
@@ -67,7 +73,7 @@ public class LevelSystem : MonoBehaviour {
         }
     }
     public void penalty() {
-        if (HealthBar.currentHealth <= 0) {
+        if (health.currentHealth <= 0) {
             xp /= 2;
             
             

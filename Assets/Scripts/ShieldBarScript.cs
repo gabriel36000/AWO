@@ -7,7 +7,7 @@ using TMPro;
 public class ShieldBarScript : MonoBehaviour {
 	Image ShieldBarColor;
 	public int maxShield = 1000;
-	public static int currentShield;
+	public int currentShield;
     public TextMeshProUGUI shield;
     public GameObject bubbleShield;
     public GameObject lighting;

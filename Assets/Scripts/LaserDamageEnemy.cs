@@ -6,19 +6,28 @@ public class LaserDamageEnemy : MonoBehaviour
 {
     public int damage;
     ShieldBarScript shield;
+    HealthBar health;
+    public GameObject ShieldBarColor;
+    public GameObject HealthBarColor;
+    
 
      void Start() {
-        shield = GetComponent<ShieldBarScript>();
+        ShieldBarColor = GameObject.Find("ShieldBarColor");
+        HealthBarColor = GameObject.Find("HealthBarColor");
+        shield = ShieldBarColor.GetComponent<ShieldBarScript>();
+        health = HealthBarColor.GetComponent<HealthBar>();
+
+        
     }
     void OnTriggerEnter2D(Collider2D col) {
         
         if (col.transform.tag == "Player") {
-            if(ShieldBarScript.currentShield > 0) {
-                ShieldBarScript.currentShield -= damage;
+            if(shield.currentShield > 0) {
+                shield.currentShield -= damage;
                 shield.lastTime = Time.time;
             }
             else {
-                HealthBar.currentHealth -= damage;
+                health.currentHealth -= damage;
                 shield.lastTime = Time.time;
             }
             shield.lastTime = Time.time;
