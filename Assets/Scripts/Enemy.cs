@@ -19,9 +19,10 @@ public class Enemy : MonoBehaviour {
     public TextMeshPro enemyName;
     public Image enemyHealth;
     public int bulletDamage;
-    
-    
-    
+    public float gotoRange;
+    public Transform player1;
+
+
 
 
 
@@ -29,26 +30,18 @@ public class Enemy : MonoBehaviour {
         target = player.GetComponent<Transform>();
         currentHealth = maxHealth;
         levelSystem = player.GetComponent<LevelSystem>(); //access a public variable from different script
-        
-        
 
-        
+
+
+
     }
 
     // Update is called once per frame
     void Update() {
         enemyHealth.fillAmount = (float)currentHealth / maxHealth;
-        RotateTowards(target.position);
-        if (Vector2.Distance(transform.position, target.position) > stoppingDistance) {
-            transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime); // Move towards player
-            speed = Mathf.Lerp(speed, maxSpeed, 0.01f); // Speed increase by 0.01 unitl maxSpeed
-        }
-
-        else {
-            speed = Mathf.Lerp(speed, 0f, 0.01f);
-        }
+        go();
         death();
-       
+
     }
     private void RotateTowards(Vector2 target) {
         var offset = 270f;
@@ -60,16 +53,30 @@ public class Enemy : MonoBehaviour {
     }
 
     private void death() {
-        if (currentHealth <= 0 ) {
-            
+        if (currentHealth <= 0) {
+
             levelSystem.xp += xpValue;
             explosion.SetActive(true);
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
-            
-            
 
 
-        }           
+
+
+        }
+    }
+    private void go(){
+        if (Vector2.Distance(player1.position, transform.position) <= gotoRange) {
+            RotateTowards(target.position);
+
+            if (Vector2.Distance(transform.position, target.position) > stoppingDistance) {
+                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime); // Move towards player
+                speed = Mathf.Lerp(speed, maxSpeed, 0.01f); // Speed increase by 0.01 unitl maxSpeed
+            }
+
+            else {
+                speed = Mathf.Lerp(speed, 0f, 0.01f);
+            }
+        }
     }
 }

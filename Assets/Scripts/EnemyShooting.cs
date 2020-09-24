@@ -11,6 +11,8 @@ public class EnemyShooting : MonoBehaviour
 
     public float attackRange;
     public Transform player;
+    
+
 
     public float fireDelay = 0.50f;
     float cooldownTimer = 0;
@@ -21,19 +23,22 @@ public class EnemyShooting : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(Vector3.Distance(player.position, transform.position) <= attackRange) {
-
+    void Update() {
         
-        cooldownTimer -= Time.deltaTime;
+        if (Vector2.Distance(player.position, transform.position) <= attackRange) {
 
-        if(cooldownTimer <-0) {
-            cooldownTimer = fireDelay;
 
-            Vector3 offset = transform.rotation * bulletoffset;
-            GameObject bulletGo = (GameObject)Instantiate(bulletPrefab, transform.position + offset, Quaternion.Euler(rotationoffset) * transform.rotation);
+            cooldownTimer -= Time.deltaTime;
+
+            if (cooldownTimer < -0) {
+                cooldownTimer = fireDelay;
+
+                Vector3 offset = transform.rotation * bulletoffset;
+                GameObject bulletGo = (GameObject)Instantiate(bulletPrefab, transform.position + offset, Quaternion.Euler(rotationoffset) * transform.rotation);
+                
             }
         }
+        
     }
+   
 }

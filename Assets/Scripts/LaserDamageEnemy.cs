@@ -34,4 +34,7 @@ public class LaserDamageEnemy : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    public void Update() {
+        Destroy(gameObject, 3);
+    }
 }
