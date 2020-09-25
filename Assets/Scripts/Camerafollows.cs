@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
+using System.Collections.Generic;
 
-public class Camerafollows : NetworkBehaviour
-{
+public class Camerafollows : MonoBehaviour {
+
     public Transform target;
 
     public float smoothSpeed = 0.125f;
-
+    
     public Vector3 offset;
 
+    private void Start() {
+        
+    }
 
-	void LateUpdate()
-    {
+    void Update() {
         transform.position = target.position + offset;
+        
     }
 }
