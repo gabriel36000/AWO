@@ -21,6 +21,11 @@ public class Enemy : MonoBehaviour {
     public int bulletDamage;
     public float gotoRange;
     public Transform player1;
+    public GameObject[] waypoints;
+    private GameObject currentWaypoint;
+    private int wpIndex = 0;
+    
+
 
 
 
@@ -30,6 +35,9 @@ public class Enemy : MonoBehaviour {
         target = player.GetComponent<Transform>();
         currentHealth = maxHealth;
         levelSystem = player.GetComponent<LevelSystem>(); //access a public variable from different script
+        wpIndex = 0;
+        currentWaypoint = waypoints[wpIndex];
+        
 
 
 
@@ -39,7 +47,14 @@ public class Enemy : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         enemyHealth.fillAmount = (float)currentHealth / maxHealth;
-        go();
+
+        if(Vector2.Distance(player1.position, transform.position) <= gotoRange){
+            go();
+        }
+        else {
+            patrol();
+        }
+        
         death();
 
     }
@@ -67,6 +82,7 @@ public class Enemy : MonoBehaviour {
     }
     private void go(){
         if (Vector2.Distance(player1.position, transform.position) <= gotoRange) {
+
             RotateTowards(target.position);
 
             if (Vector2.Distance(transform.position, target.position) > stoppingDistance) {
@@ -79,4 +95,25 @@ public class Enemy : MonoBehaviour {
             }
         }
     }
+    private void patrol() {
+        if (WpReached(transform.position, currentWaypoint.transform.position, 5)) {
+            UpdatedWp(); // move to next waypoint if reached the current one
+        }
+
+        RotateTowards(currentWaypoint.transform.position);
+        gameObject.transform.position = Vector2.MoveTowards(gameObject.transform.position, currentWaypoint.transform.position, speed * Time.deltaTime); // Move to current waypoint
+        speed = Mathf.Lerp(speed, maxSpeed, 0.01f);
+        
+
+    }
+    private bool WpReached(Vector2 position, Vector2 target, float allownace) {
+        return Vector2.Distance(position, target) <= allownace;
+    }
+    private void UpdatedWp() {
+        print("Updated Wp");
+        wpIndex++; // Next waypoint
+        wpIndex = wpIndex % waypoints.Length; // Cycling from 0 to waypoint length
+        currentWaypoint = waypoints[wpIndex];
+    }
+    
 }
