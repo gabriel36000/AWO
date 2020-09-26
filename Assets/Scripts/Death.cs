@@ -9,7 +9,6 @@ public class Death : MonoBehaviour
     public GameObject button;
     public GameObject player;
     public GameObject healthCurrent;
-
     LevelSystem levelSystem;
     HealthBar health;
     void Start()
