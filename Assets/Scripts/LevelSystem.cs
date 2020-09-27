@@ -11,6 +11,7 @@ public class LevelSystem : MonoBehaviour {
     int[] levelHealth = { 10, 30, 50, 100 };
     int[] levelShield = { 100, 200, 300, 400 };
     public TextMeshPro levelText;
+    
     public HealthBar healthBar;
     public ShieldBarScript shieldBar;
     public Image xpBackground;
@@ -18,11 +19,13 @@ public class LevelSystem : MonoBehaviour {
     BoxCollider2D bx;
     HealthBar health;
     Player player;
+    CharacterStatsManager statsManager;
 
 
     void Start() {
         player = GetComponent<Player>();
         playerHealth = GameObject.Find("HealthBarColor");
+        statsManager =  GetComponent<CharacterStatsManager>();
         bx = GetComponent<BoxCollider2D>();
         health = playerHealth.GetComponent<HealthBar>();
         
@@ -66,6 +69,10 @@ public class LevelSystem : MonoBehaviour {
         levelText.text = "Level: " + (level + 2);
         healthBar.SetMaxHealth(levelHealth[level]);
         shieldBar.SetMaxShield(levelShield[level]);
+        statsManager.currentSkillPoints += 1;
+        
+        
+        
 
     }
     private void OnTriggerEnter2D(Collider2D collision) {
