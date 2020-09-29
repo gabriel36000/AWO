@@ -11,7 +11,6 @@ public class LevelSystem : MonoBehaviour {
     int[] levelHealth = { 10, 30, 50, 100 };
     int[] levelShield = { 100, 200, 300, 400 };
     public TextMeshPro levelText;
-    
     public HealthBar healthBar;
     public ShieldBarScript shieldBar;
     public Image xpBackground;
