@@ -11,6 +11,9 @@ public class Player : MonoBehaviour {
     
     public int Hp;
     public int Shield;
+    public int minDamage;
+    public int maxDamage;
+    public int damage;
     public GameObject healthBar1;
     public GameObject shieldBar1;
     public GameObject player;
@@ -18,6 +21,7 @@ public class Player : MonoBehaviour {
     LevelSystem levelSystem;
     ShieldBarScript shieldBar;
     HealthBar healthBar;
+    LaserDamage laser;
     
 
     public void Start() {
@@ -29,12 +33,14 @@ public class Player : MonoBehaviour {
         shieldBar = shieldBar1.GetComponent<ShieldBarScript>();
         healthBar = healthBar1.GetComponent<HealthBar>();
 
+        
+
     }
     public void Update() {
 
         if (Input.GetKeyDown(KeyCode.S)) Save();
         if (Input.GetKeyDown(KeyCode.L)) Load();
-
+        damage = Random.Range(minDamage, maxDamage);
 
     }
     
