@@ -13,6 +13,8 @@ public enum EquipmentType {
 [CreateAssetMenu]
 public class EquippableItem : Item
 {
+    ShieldBarScript Shield1;
+   
     public int damage;
     public int health;
     public int shield;
@@ -20,13 +22,26 @@ public class EquippableItem : Item
     public int speed;
     public int rateOfFire;
     [Space]
-    public float damagePercentBonus;
-    public float healthPercentBonus;
-    public float shieldPercentBonus;
-    public float critChancePercentBonus;
-    public float speedPercentBonus;
-    public float RateOfFirePercentBonus;
-    [Space]
     public EquipmentType equipmentType;
 
+    public void start() {
+        Shield1 = FindObjectOfType<ShieldBarScript>();
+        
+    }
+
+    public void Equip(InventoryManager c) {
+        if(shield != 0) {
+           
+            
+        }
+                
+    }
+
+
+    public void Unequip(InventoryManager c) {
+        
+        
+    }
+
+    
 }

@@ -24,6 +24,7 @@ public class Enemy : MonoBehaviour {
     public GameObject[] waypoints;
     private GameObject currentWaypoint;
     private int wpIndex = 0;
+    Rigidbody2D rigidbody;
     
 
 
@@ -37,6 +38,8 @@ public class Enemy : MonoBehaviour {
         levelSystem = player.GetComponent<LevelSystem>(); //access a public variable from different script
         wpIndex = 0;
         currentWaypoint = waypoints[wpIndex];
+        rigidbody = GetComponent<Rigidbody2D>();
+        
         
 
 
@@ -86,12 +89,15 @@ public class Enemy : MonoBehaviour {
             RotateTowards(target.position);
 
             if (Vector2.Distance(transform.position, target.position) > stoppingDistance) {
-                transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime); // Move towards player
+                //transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime); // Move towards player
+                
                 speed = Mathf.Lerp(speed, maxSpeed, 0.01f); // Speed increase by 0.01 unitl maxSpeed
+                rigidbody.velocity = transform.up * speed;
             }
 
             else {
-                speed = Mathf.Lerp(speed, 0f, 0.01f);
+                speed = Mathf.Lerp(speed, 2f, 0.01f);
+                rigidbody.velocity = transform.up * speed;
             }
         }
     }
