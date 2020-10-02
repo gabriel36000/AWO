@@ -5,11 +5,15 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     ShieldBarScript Shield1;
+    HealthBar health1;
+    PlayerMovement movement1;
 
     [SerializeField] Inventory inventory;
     [SerializeField] EqupmentPanel equpmentPanel;
     private void Start() {
+        movement1 = FindObjectOfType<PlayerMovement>();
         Shield1 = FindObjectOfType<ShieldBarScript>();
+        health1 = FindObjectOfType<HealthBar>();
     }
 
     private void Awake() {
@@ -37,6 +41,8 @@ public class InventoryManager : MonoBehaviour
                 }
                 item.Equip(this);
                 Shield1.maxShield += item.shield;
+                health1.maxHealth += item.health;
+                movement1.maxSpeed += item.speed;
                 Debug.Log("Hello");
 
             }
@@ -50,6 +56,8 @@ public class InventoryManager : MonoBehaviour
     public void Unequip(EquippableItem item) {
         if(!inventory.IsFull() && equpmentPanel.RemoveItem(item)) {
             Shield1.maxShield -= item.shield;
+            health1.maxHealth -= item.health;
+            movement1.maxSpeed -= item.speed;
             inventory.AddItem(item);
         }
     }
