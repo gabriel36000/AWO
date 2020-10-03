@@ -25,6 +25,10 @@ public class Enemy : MonoBehaviour {
     private GameObject currentWaypoint;
     private int wpIndex = 0;
     Rigidbody2D rigidbody;
+    public Text damageText;
+    Animator damageAnim;
+    Player player2;
+   
     
 
 
@@ -121,5 +125,6 @@ public class Enemy : MonoBehaviour {
         wpIndex = wpIndex % waypoints.Length; // Cycling from 0 to waypoint length
         currentWaypoint = waypoints[wpIndex];
     }
+  
     
 }
