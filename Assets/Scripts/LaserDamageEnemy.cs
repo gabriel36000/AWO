@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LaserDamageEnemy : MonoBehaviour
 {
@@ -9,9 +10,10 @@ public class LaserDamageEnemy : MonoBehaviour
     HealthBar health;
     public GameObject ShieldBarColor;
     public GameObject HealthBarColor;
-    
+    public GameObject damageEffect;
+    public GameObject PopUpPreFab;
 
-     void Start() {
+    void Start() {
         ShieldBarColor = GameObject.Find("ShieldBarColor");
         HealthBarColor = GameObject.Find("HealthBarColor");
         shield = ShieldBarColor.GetComponent<ShieldBarScript>();
@@ -25,10 +27,22 @@ public class LaserDamageEnemy : MonoBehaviour
             if(shield.currentShield > 0) {
                 shield.currentShield -= damage;
                 shield.lastTime = Time.time;
+                damageEffect.SetActive(true);
+                Instantiate(damageEffect, transform.position, transform.rotation);
+                GameObject PopUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
+                PopUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = damage.ToString();
+
+                Destroy(PopUpDamage, 0.7f);
             }
             else {
                 health.currentHealth -= damage;
                 shield.lastTime = Time.time;
+                damageEffect.SetActive(true);
+                Instantiate(damageEffect, transform.position, transform.rotation);
+                GameObject PopUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
+                PopUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = damage.ToString();
+
+                Destroy(PopUpDamage, 0.7f);
             }
             shield.lastTime = Time.time;
             Destroy(gameObject);

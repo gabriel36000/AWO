@@ -11,6 +11,8 @@ public class EnemyShooting : MonoBehaviour
 
     public float attackRange;
     public Transform player;
+    public GameObject player1;
+    
     
 
 
@@ -19,7 +21,8 @@ public class EnemyShooting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        player1 = GameObject.Find("Player");
+        player = player1.GetComponent<Transform>();
     }
 
     // Update is called once per frame

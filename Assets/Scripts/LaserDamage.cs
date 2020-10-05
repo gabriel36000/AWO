@@ -10,6 +10,7 @@ public class LaserDamage : MonoBehaviour {
     public GameObject player1;
     public GameObject PopUpPreFab;
     Enemy enemy;
+    public GameObject damageEffect;
     
 
     
@@ -28,6 +29,8 @@ public class LaserDamage : MonoBehaviour {
 
          if(col.transform.tag == "Enemy") {
             col.GetComponent<Enemy>().currentHealth -= damage;
+            damageEffect.SetActive(true);
+            Instantiate(damageEffect, transform.position, transform.rotation);
             print(damage);
             print(transform.position);
             Destroy(gameObject);

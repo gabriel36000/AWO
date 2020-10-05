@@ -25,9 +25,10 @@ public class Enemy : MonoBehaviour {
     private GameObject currentWaypoint;
     private int wpIndex = 0;
     Rigidbody2D rigidbody;
-    public Text damageText;
     Animator damageAnim;
     Player player2;
+    public int moneyValueLow, moneyValueHigh;
+    PlayerMoney money;
    
     
 
@@ -37,9 +38,13 @@ public class Enemy : MonoBehaviour {
 
 
     void Start() {
+       
+        player = GameObject.Find("Player");
+        player1 = player.GetComponent<Transform>();
         target = player.GetComponent<Transform>();
         currentHealth = maxHealth;
         levelSystem = player.GetComponent<LevelSystem>(); //access a public variable from different script
+        money = player.GetComponent<PlayerMoney>();
         wpIndex = 0;
         currentWaypoint = waypoints[wpIndex];
         rigidbody = GetComponent<Rigidbody2D>();
@@ -78,6 +83,8 @@ public class Enemy : MonoBehaviour {
         if (currentHealth <= 0) {
 
             levelSystem.xp += xpValue;
+            money.money += Random.Range(moneyValueLow, moneyValueHigh);
+            print("money" + money.money);
             explosion.SetActive(true);
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
