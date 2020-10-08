@@ -9,6 +9,7 @@ public class Death : MonoBehaviour
     public GameObject button;
     public GameObject player;
     public GameObject healthCurrent;
+    public GameObject lowHealthEffect;
     LevelSystem levelSystem;
     HealthBar health;
     void Start()
@@ -29,9 +30,10 @@ public class Death : MonoBehaviour
             player.SetActive(false);
             button.SetActive(true);
             levelSystem.penalty();
-            //Destroy(gameObject); Instead of destorying the GameObject, disable it in order for the player to respawn properly.
-           
             
+            //Destroy(gameObject); Instead of destorying the GameObject, disable it in order for the player to respawn properly.
+
+
         }
         else {
             button.SetActive(false);

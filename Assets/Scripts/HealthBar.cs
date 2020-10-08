@@ -13,6 +13,7 @@ public class HealthBar : MonoBehaviour {
     public GameObject smoke;
     private float regenrate = 1f;
     public float lastTime;
+    public GameObject lowHealthEffect;
 
     // Use this for initialization
     void Start() {
@@ -34,11 +35,11 @@ public class HealthBar : MonoBehaviour {
         health.text = "HP: " + (currentHealth);
         Smoke();
         regenerating();
-
+        LowHealth();
 
     }
     public void Smoke() {
-        if (currentHealth <= 50) {
+        if (currentHealth <= maxHealth / 4) {
             smoke.SetActive(true);
         }
         else {
@@ -52,6 +53,14 @@ public class HealthBar : MonoBehaviour {
             lastTime = Time.time;
 
 
+        }
+    }
+    public void LowHealth() {
+        if(currentHealth <= maxHealth / 4) {
+            lowHealthEffect.SetActive(true);
+        }
+        else {
+            lowHealthEffect.SetActive(false);
         }
     }
 }
