@@ -7,15 +7,18 @@ public class projectiles : MonoBehaviour {
 	private List<GameObject> Projectiles = new List<GameObject>();
 	public GameObject projectilePrefab;
     public AudioClip laserSound;
+    public float fireRate = 0.5f;
+    private float nextFire = 0.0f;
 	void Start () {
 		projectileVelocity = 0;
 	}
 
 
 	void Update() {
-		if (Input.GetMouseButtonDown(0)) {
+		if (Input.GetMouseButtonDown(0) && Time.time > nextFire) {
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
+            nextFire = Time.time + fireRate;
 			GameObject bullet = (GameObject)Instantiate(projectilePrefab, transform.position, transform.rotation);
 			Projectiles.Add(bullet);
             AudioSource.PlayClipAtPoint(laserSound, transform.position);
