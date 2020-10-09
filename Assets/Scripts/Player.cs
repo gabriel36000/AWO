@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using SimpleJSON;
+using TMPro;
 
 public class Player : MonoBehaviour {
     public string Name;
@@ -17,12 +18,48 @@ public class Player : MonoBehaviour {
     public GameObject healthBar1;
     public GameObject shieldBar1;
     public GameObject player;
+    public CharacterStatsManager stats;
 
     LevelSystem levelSystem;
     ShieldBarScript shieldBar;
     HealthBar healthBar;
     LaserDamage laser;
-    
+
+    [Header("Skills")]
+    public TextMeshProUGUI tmpHp;
+    public int hpSkill = 0;
+    public TextMeshProUGUI tmpShield;
+    public int shieldSkill = 0;
+    public TextMeshProUGUI tmpDamage;
+    public int damageSkill = 0;
+    public TextMeshProUGUI tmp;
+
+    public void IncreaseHP() {
+        if (stats.currentSkillPoints > 0) {
+            stats.currentSkillPoints--;
+            hpSkill++;
+            tmpHp.text = hpSkill.ToString();
+            tmp.text = stats.currentSkillPoints.ToString();
+        }
+	}
+
+    public void IncreaseShield() {
+        if (stats.currentSkillPoints > 0) {
+            stats.currentSkillPoints--;
+            shieldSkill++;
+            tmpShield.text = shieldSkill.ToString();
+            tmp.text = stats.currentSkillPoints.ToString();
+        }
+    }
+    public void IncreaseDamage() {
+        if (stats.currentSkillPoints > 0) {
+            stats.currentSkillPoints--;
+            damageSkill++;
+            tmpDamage.text = damageSkill.ToString();
+            tmp.text = stats.currentSkillPoints.ToString();
+        }
+    }
+
 
     public void Start() {
         healthBar1 = GameObject.Find("HealthBarColor");

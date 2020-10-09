@@ -2,23 +2,42 @@ Initialize engine version: 2017.1.0f3 (472613c02cf7)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.1]
-    Renderer: NVIDIA GeForce GTX 1060 6GB (ID=0x1c03)
+    Renderer: NVIDIA GeForce RTX 2060 (ID=0x1f15)
     Vendor:   NVIDIA
-    VRAM:     6052 MB
-    Driver:   26.21.14.4108
+    VRAM:     5980 MB
+    Driver:   27.21.14.5638
 Begin MonoManager ReloadAssembly
-Platform assembly: C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\UnityEngine.dll (this message is harmless)
-Loading C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\UnityEngine.dll into Unity Child Domain
-Platform assembly: C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\Assembly-CSharp.dll (this message is harmless)
-Loading C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
-Platform assembly: C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\UnityEngine.UI.dll (this message is harmless)
-Loading C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
-Platform assembly: C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
-Loading C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-Platform assembly: C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\UnityEngine.Timeline.dll (this message is harmless)
-Loading C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\UnityEngine.Timeline.dll into Unity Child Domain
-Platform assembly: C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\System.dll (this message is harmless)
-Platform assembly: C:\Users\admin\Desktop\Coding\Programming stuff\spacegame\Unity Game\Absolute Warfare Online\Absolute Warfare Online_Data\Managed\System.Core.dll (this message is harmless)
-- Completed reload, in  0.018 seconds
+Platform assembly: C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\UnityEngine.Timeline.dll (this message is harmless)
+Loading C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\UnityEngine.Timeline.dll into Unity Child Domain
+Platform assembly: C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\System.dll (this message is harmless)
+Platform assembly: C:\Users\User\Documents\Unity\AWO\Absolute Warfare Online_Data\Managed\System.Core.dll (this message is harmless)
+- Completed reload, in  0.032 seconds
 <RI> Initializing input.
 <RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.193800 ms
+There is no NetworkIdentity on this object. Please add one.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+NullReferenceException: Object reference not set to an instance of an object
+  at UnityEngine.Networking.NetworkBehaviour.get_localPlayerAuthority () [0x00000] in <filename unknown>:0 
+  at Camerafollows.Start () [0x00000] in <filename unknown>:0 
+ 
+(Filename:  Line: -1)
+
+Setting up 6 worker threads for Enlighten.
+  Thread -> id: 4cf4 -> priority: 1 
+  Thread -> id: 914c -> priority: 1 
+  Thread -> id: 3590 -> priority: 1 
+  Thread -> id: 57e8 -> priority: 1 
+  Thread -> id: 4600 -> priority: 1 
+  Thread -> id: 31d8 -> priority: 1 
