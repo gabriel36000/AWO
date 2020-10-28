@@ -11,7 +11,7 @@ public class HealthBar : MonoBehaviour {
     //public Death death;
     public TextMeshProUGUI health;
     public GameObject smoke;
-    private float regenrate = 1f;
+    public float regenrate = 1f;
     public float lastTime;
     public GameObject lowHealthEffect;
 

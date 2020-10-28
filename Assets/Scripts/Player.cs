@@ -19,6 +19,7 @@ public class Player : MonoBehaviour {
     public GameObject shieldBar1;
     public GameObject player;
     public CharacterStatsManager stats;
+    public GameObject PopUpHealth;
 
     LevelSystem levelSystem;
     ShieldBarScript shieldBar;
@@ -78,6 +79,7 @@ public class Player : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.S)) Save();
         if (Input.GetKeyDown(KeyCode.L)) Load();
         damage = Random.Range(minDamage, maxDamage);
+        
 
     }
     
@@ -132,4 +134,7 @@ public class Player : MonoBehaviour {
 
 
     }
+
+   
+    
 }

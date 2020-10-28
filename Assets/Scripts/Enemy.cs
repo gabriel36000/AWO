@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour {
     Player player2;
     public int moneyValueLow, moneyValueHigh;
     PlayerMoney money;
+    public GameObject popUpPreFabMoney;
+    
    
     
 
@@ -85,6 +87,10 @@ public class Enemy : MonoBehaviour {
             levelSystem.xp += xpValue;
             money.money += Random.Range(moneyValueLow, moneyValueHigh);
             print("money" + money.money);
+            GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
+            PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + money.money.ToString ();
+
+            Destroy(PopUpmoney, 2.7f);
             explosion.SetActive(true);
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
