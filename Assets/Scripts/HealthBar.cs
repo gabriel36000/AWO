@@ -14,6 +14,7 @@ public class HealthBar : MonoBehaviour {
     public float regenrate = 1f;
     public float lastTime;
     public GameObject lowHealthEffect;
+    public Gradient gradient;
 
     // Use this for initialization
     void Start() {
@@ -33,6 +34,7 @@ public class HealthBar : MonoBehaviour {
     void FixedUpdate() {
         HealthBarColor.fillAmount = (float)currentHealth / maxHealth;
         health.text = "HP: " + (currentHealth);
+        HealthBarColor.color = gradient.Evaluate(HealthBarColor.fillAmount);
         Smoke();
         regenerating();
         LowHealth();

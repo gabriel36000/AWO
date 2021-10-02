@@ -11709,7 +11709,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1577965321832428}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SkillPointManager, Assembly-CSharp
         m_MethodName: IncreaseSkill
         m_Mode: 1
@@ -17848,7 +17848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.99264705, g: 0.014597764, b: 0.014597764, a: 1}
+  m_Color: {r: 0.99264705, g: 0.014597764, b: 0.014597764, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -17889,8 +17889,38 @@ MonoBehaviour:
   currentHealth: 0
   health: {fileID: 198292888}
   smoke: {fileID: 161590341}
+  regenrate: 1
   lastTime: 0
   lowHealthEffect: {fileID: 396504712}
+  gradient:
+    serializedVersion: 2
+    key0: {r: 0.6792453, g: 0.0598831, b: 0.034603007, a: 1}
+    key1: {r: 0.99338865, g: 0.59840983, b: 0, a: 1}
+    key2: {r: 1, g: 0.95652544, b: 0, a: 0}
+    key3: {r: 0.6319344, g: 1, b: 0, a: 0}
+    key4: {r: 0, g: 1, b: 0.022211552, a: 0}
+    key5: {r: 0, g: 1, b: 0.022211552, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 6554
+    ctime1: 16384
+    ctime2: 30840
+    ctime3: 45489
+    ctime4: 65535
+    ctime5: 65535
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 1
+    m_NumColorKeys: 5
+    m_NumAlphaKeys: 2
 --- !u!1 &793271971
 GameObject:
   m_ObjectHideFlags: 0
@@ -40560,7 +40590,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1577965321832428}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SkillPointManager, Assembly-CSharp
         m_MethodName: IncreaseSkill
         m_Mode: 1
@@ -51822,7 +51852,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1577965321832428}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SkillPointManager, Assembly-CSharp
         m_MethodName: IncreaseSkill
         m_Mode: 1
@@ -56988,7 +57018,6 @@ GameObject:
   - component: {fileID: 1577965321832425}
   - component: {fileID: 1577965321832426}
   - component: {fileID: 1577965321832427}
-  - component: {fileID: 1577965321832428}
   m_Layer: 1
   m_Name: Player
   m_TagString: Player
@@ -57078,6 +57107,7 @@ MonoBehaviour:
   shieldBar1: {fileID: 0}
   player: {fileID: 0}
   stats: {fileID: 1577965321832426}
+  PopUpHealth: {fileID: 0}
   tmpHp: {fileID: 256120809}
   hpSkill: 0
   tmpShield: {fileID: 1736683118}
@@ -57122,20 +57152,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   money: 0
   moneyUI: {fileID: 577542040}
---- !u!114 &1577965321832428
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1577965321832421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45f3a0a01af0e354ab5a2633b1fac8b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tmp: {fileID: 793271973}
-  stats: {fileID: 1577965321832426}
 --- !u!1 &1596213805259411
 GameObject:
   m_ObjectHideFlags: 0
@@ -57302,6 +57318,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1912416879857922, guid: 10fb6d7c8aa9a1c4eb63c184b12619d7,
     type: 3}
   laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
+  fireRate: 0.5
 --- !u!114 &114443347229419777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57317,6 +57334,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1912416879857922, guid: 10fb6d7c8aa9a1c4eb63c184b12619d7,
     type: 3}
   laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
+  fireRate: 0.5
 --- !u!114 &114495308664285811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62573,6 +62591,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5130545678822833736, guid: 8e13d4dfbcf6e0f4fbece375d10b80ae,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5130545678822833738, guid: 8e13d4dfbcf6e0f4fbece375d10b80ae,
         type: 3}
@@ -72573,6 +72596,8 @@ MonoBehaviour:
   - {fileID: 1577127062}
   moneyValueLow: 0
   moneyValueHigh: 15
+  popUpPreFabMoney: {fileID: 5301794707348302735, guid: f0346b208590a3645bb5efa20de7ce54,
+    type: 3}
 --- !u!4 &5130545679485426008
 Transform:
   m_ObjectHideFlags: 0
