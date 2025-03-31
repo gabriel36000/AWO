@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class Enemy : MonoBehaviour {
     public float speed;
@@ -11,7 +12,7 @@ public class Enemy : MonoBehaviour {
     public float rotationSpeed;
     private Transform target;
     public GameObject player;
-    public int currentHealth;
+    public int currentHealth; 
     public int maxHealth;
     public int xpValue;
     LevelSystem levelSystem;            //store scripts 
@@ -85,7 +86,7 @@ public class Enemy : MonoBehaviour {
         if (currentHealth <= 0) {
 
             levelSystem.xp += xpValue;
-            money.money += Random.Range(moneyValueLow, moneyValueHigh);
+            money.money += UnityEngine.Random.Range(moneyValueLow, moneyValueHigh);
             print("money" + money.money);
             GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
             PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + money.money.ToString ();
@@ -101,21 +102,22 @@ public class Enemy : MonoBehaviour {
         }
     }
     private void go(){
-        if (Vector2.Distance(player1.position, transform.position) <= gotoRange) {
+        float distance = Vector2.Distance(player1.position, transform.position);
+        RotateTowards(target.position);
 
-            RotateTowards(target.position);
 
-            if (Vector2.Distance(transform.position, target.position) > stoppingDistance) {
-                //transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime); // Move towards player
-                
-                speed = Mathf.Lerp(speed, maxSpeed, 0.01f); // Speed increase by 0.01 unitl maxSpeed
-                rigidbody.velocity = transform.up * speed;
-            }
+        if (distance > stoppingDistance)
+        {
+           
+            speed = Mathf.Lerp(speed, maxSpeed, 0.01f); // Gradually accelerate
+            rigidbody.velocity = transform.up * speed;
+        }
+        // If the enemy is within the stopping distance, stop its movement
+        else
+        {
+            speed = Mathf.Lerp(speed, 0f, 0.015f);
+            rigidbody.velocity = transform.up * speed;
 
-            else {
-                speed = Mathf.Lerp(speed, 2f, 0.01f);
-                rigidbody.velocity = transform.up * speed;
-            }
         }
     }
     private void patrol() {
@@ -138,6 +140,6 @@ public class Enemy : MonoBehaviour {
         wpIndex = wpIndex % waypoints.Length; // Cycling from 0 to waypoint length
         currentWaypoint = waypoints[wpIndex];
     }
-  
-    
+
+
 }
