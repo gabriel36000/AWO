@@ -8,25 +8,39 @@ public class Respawn : MonoBehaviour
     public GameObject player;
     public GameObject respawnPrefab;
     public GameObject[] respawns;
-    public GameObject healthBar;
-    public GameObject shieldBar;
     public Button respawnButton;
-    public ShieldBarScript shield;
-    public HealthBar health;
-    public void Start() {
+
+    private ShieldBarScript shield;
+    private Player playerScript;
+
+    void Start()
+    {
         player = GameObject.Find("Player");
-        healthBar = GameObject.Find("HealthBarColor");
-        shieldBar = GameObject.Find("ShieldBarColor");
-        shield = shieldBar.GetComponent<ShieldBarScript>();
-        health = healthBar.GetComponent<HealthBar>();
 
+        if (player != null)
+        {
+            playerScript = player.GetComponent<Player>();
+            GameObject shieldBar = GameObject.Find("ShieldBarColor");
+            if (shieldBar != null)
+                shield = shieldBar.GetComponent<ShieldBarScript>();
+        }
+        else
+        {
+            Debug.LogError("Player object not found!");
+        }
     }
 
-    public void OnClick() {
-        player.transform.position = respawnPrefab.transform.position;
-        health.currentHealth = health.maxHealth;
-        shield.currentShield = shield.maxShield;
-        player.SetActive(true);
+    public void OnClick()
+    {
+        if (playerScript != null)
+        {
+            player.transform.position = respawnPrefab.transform.position;
+            playerScript.currentHealth = playerScript.maxHealth;
+
+            if (shield != null)
+                shield.currentShield = shield.maxShield;
+
+            player.SetActive(true);
+        }
     }
-        
 }

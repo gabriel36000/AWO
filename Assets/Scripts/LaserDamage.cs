@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class LaserDamage : MonoBehaviour {
+public class LaserDamage : MonoBehaviour
+{
     public int damage;
 
     Player player;
@@ -11,32 +12,64 @@ public class LaserDamage : MonoBehaviour {
     public GameObject PopUpPreFab;
     Enemy enemy;
     public GameObject damageEffect;
-    
-
-    
-    
 
 
-    public void Start() {
+
+
+
+
+    public void Start()
+    {
         player1 = GameObject.Find("Player");
-        player = player1.GetComponent<Player>();
-        damage = player.damage;
-        
-       
+
+        if (player1 != null)
+        {
+            player = player1.GetComponent<Player>();
+            if (player != null)
+            {
+                damage = player.damage;
+            }
+            else
+            {
+                Debug.LogWarning("Player script missing on Player GameObject.");
+                damage = 10; // fallback damage value
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Player GameObject not found.");
+            damage = 10; // fallback damage value
+        }
     }
 
-    void OnTriggerEnter2D(Collider2D col) { 
+    void OnTriggerEnter2D(Collider2D col)
+    {
+        // Try to get player reference if it's null
+        if (player == null)
+        {
+            GameObject playerObj = GameObject.Find("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.GetComponent<Player>();
+                if (player != null)
+                {
+                    damage = player.damage;
+                }
+            }
+        }
 
-         if(col.transform.tag == "Enemy") {
+        // Now proceed with normal collision logic
+        if (col.CompareTag("Enemy") || col.CompareTag("Boss"))
+        {
             col.GetComponent<Enemy>().currentHealth -= damage;
-            damageEffect.SetActive(true);
-            Instantiate(damageEffect, transform.position, transform.rotation);
-            print(damage);
-            print(transform.position);
+
+            GameObject instance = Instantiate(damageEffect, transform.position, transform.rotation);
+            Destroy(instance, 1f);
+
             Destroy(gameObject);
+
             GameObject PopUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
             PopUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = damage.ToString();
-            
             Destroy(PopUpDamage, 0.7f);
         }
     }

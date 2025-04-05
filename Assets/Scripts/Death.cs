@@ -12,12 +12,13 @@ public class Death : MonoBehaviour
     public GameObject lowHealthEffect;
     LevelSystem levelSystem;
     HealthBar health;
+    Player player1;
     void Start()
     {
         
         player = GameObject.Find("Player");
-        
-        healthCurrent = GameObject.Find("HealthBarColor");
+
+        healthCurrent = GameObject.Find("Player");
         levelSystem = player.GetComponent<LevelSystem>();
         health = healthCurrent.GetComponent<HealthBar>();
         
@@ -25,7 +26,7 @@ public class Death : MonoBehaviour
 
     // Update is called once per frame
     void Update() {
-        if (health.currentHealth <= 0) {
+        if (player1.currentHealth <= 0) {
             Debug.Log("Death");
             player.SetActive(false);
             button.SetActive(true);

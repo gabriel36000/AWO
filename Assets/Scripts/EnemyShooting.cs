@@ -8,40 +8,74 @@ public class EnemyShooting : MonoBehaviour
     public Vector3 rotationoffset = new Vector3(0, 0, 0);
 
     public GameObject bulletPrefab;
-
     public float attackRange;
-    public Transform player;
-    public GameObject player1;
-    
-    
-
-
     public float fireDelay = 0.50f;
-    float cooldownTimer = 0;
-    // Start is called before the first frame update
+    private float cooldownTimer = 0;
+
+    private Transform target; // Now stores the nearest target
+    public Enemy enemy;
+
     void Start()
     {
-        player1 = GameObject.Find("Player");
-        player = player1.GetComponent<Transform>();
+        enemy = GetComponent<Enemy>();
     }
 
-    // Update is called once per frame
-    void Update() {
-        
-        if (Vector2.Distance(player.position, transform.position) <= attackRange) {
+    void Update()
+    {
+        if (enemy.IsRetreating) return; // Stop shooting if retreating
 
+        target = GetClosestTarget(); // Find closest target (Player or Friendly AI)
 
+        if (target != null && Vector2.Distance(target.position, transform.position) <= attackRange)
+        {
             cooldownTimer -= Time.deltaTime;
-
-            if (cooldownTimer < -0) {
+            if (cooldownTimer <= 0)
+            {
                 cooldownTimer = fireDelay;
-
-                Vector3 offset = transform.rotation * bulletoffset;
-                GameObject bulletGo = (GameObject)Instantiate(bulletPrefab, transform.position + offset, Quaternion.Euler(rotationoffset) * transform.rotation);
-                
+                ShootAtTarget(target);
             }
         }
-        
     }
-   
+
+    Transform GetClosestTarget()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        GameObject[] friendlies = GameObject.FindGameObjectsWithTag("Friendly");
+
+        Transform closest = null;
+        float minDistance = Mathf.Infinity;
+
+        if (player != null)
+        {
+            float playerDistance = Vector2.Distance(transform.position, player.transform.position);
+            if (playerDistance < minDistance)
+            {
+                minDistance = playerDistance;
+                closest = player.transform;
+            }
+        }
+
+        foreach (GameObject friendly in friendlies)
+        {
+            if (friendly != null)
+            {
+                float friendlyDistance = Vector2.Distance(transform.position, friendly.transform.position);
+                if (friendlyDistance < minDistance)
+                {
+                    minDistance = friendlyDistance;
+                    closest = friendly.transform;
+                }
+            }
+        }
+
+        return closest;
+    }
+
+    void ShootAtTarget(Transform target)
+    {
+        Vector3 offset = transform.rotation * bulletoffset;
+        GameObject bulletGo = Instantiate(bulletPrefab, transform.position + offset, Quaternion.Euler(rotationoffset) * transform.rotation);
+        Destroy(bulletGo, 4f);
+        Debug.Log("Enemy shooting at: " + target.name);
+    }
 }
