@@ -11,6 +11,7 @@ public class AIShooter : MonoBehaviour
     public float attackRange = 10f; // Range to start shooting at targets
     public float fireDelay = 0.5f;  // Delay between shots
     private float cooldownTimer = 0f; // Cooldown timer
+    public AudioClip laserSound;
 
     // Start is called before the first frame update
     void Start()
@@ -80,8 +81,18 @@ public class AIShooter : MonoBehaviour
 
         // Instantiate the bullet
         GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, rotation);
-
+        if (IsVisibleToCamera())
+        {
+            AudioSource.PlayClipAtPoint(laserSound, transform.position);
+        }
         // Destroy the instantiated bullet after 4 seconds
         Destroy(bulletInstance, 4f);
+    }
+    bool IsVisibleToCamera()
+    {
+        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(transform.position);
+        return viewportPoint.x >= 0 && viewportPoint.x <= 1 &&
+               viewportPoint.y >= 0 && viewportPoint.y <= 1 &&
+               viewportPoint.z > 0;
     }
 }

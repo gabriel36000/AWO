@@ -15,6 +15,8 @@ public class EnemyManager : MonoBehaviour
     {
         spawnTimer += Time.deltaTime;
 
+        activeEnemies.RemoveAll(enemy => enemy == null);
+
         if (spawnTimer >= spawnInterval && activeEnemies.Count < maxEnemies)
         {
             SpawnEnemy();

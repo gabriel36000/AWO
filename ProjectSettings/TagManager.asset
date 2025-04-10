@@ -9,6 +9,7 @@ TagManager:
   - EnemyBullet
   - Boss
   - Friendly
+  - Inventory
   layers:
   - Default
   - TransparentFX

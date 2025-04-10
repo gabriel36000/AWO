@@ -1,41 +1,48 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class EnemyShooting : MonoBehaviour
+public class EnemyTurret : MonoBehaviour
 {
-    public Vector3 bulletoffset = new Vector3(0, 0.5f, 0);
-    public Vector3 rotationoffset = new Vector3(0, 0, 0);
-
+    public float rotationSpeed = 5f;
+    public float attackRange = 10f;
     public GameObject bulletPrefab;
-    public float attackRange;
-    public float fireDelay = 0.50f;
-    private float cooldownTimer = 0;
+    public Vector3 bulletOffset = new Vector3(0, 0.5f, 0);
+    public Vector3 rotationOffset = new Vector3(0, 0, 0);
+    public float fireDelay = 0.5f;
     public AudioClip laserSound;
 
-    private Transform target; // Now stores the nearest target
-    public Enemy enemy;
-
-    void Start()
-    {
-        enemy = GetComponent<Enemy>();
-    }
+    private float cooldownTimer = 0f;
+    private Transform target;
 
     void Update()
     {
-        if (enemy.IsRetreating) return; // Stop shooting if retreating
+        target = GetClosestTarget();
 
-        target = GetClosestTarget(); // Find closest target (Player or Friendly AI)
-
-        if (target != null && Vector2.Distance(target.position, transform.position) <= attackRange)
+        if (target != null)
         {
-            cooldownTimer -= Time.deltaTime;
-            if (cooldownTimer <= 0)
+            RotateTowards(target.position);
+
+            if (Vector2.Distance(transform.position, target.position) <= attackRange)
             {
-                cooldownTimer = fireDelay;
-                ShootAtTarget(target);
+                cooldownTimer -= Time.deltaTime;
+                if (cooldownTimer <= 0)
+                {
+                    cooldownTimer = fireDelay;
+                    ShootAtTarget();
+                }
             }
         }
+    }
+
+    void RotateTowards(Vector2 targetPosition)
+    {
+        Vector2 direction = targetPosition - (Vector2)transform.position;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion desiredRotation = Quaternion.Euler(0, 0, angle - 90f); // Adjust for sprite facing up
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, rotationSpeed * Time.deltaTime);
     }
 
     Transform GetClosestTarget()
@@ -72,25 +79,19 @@ public class EnemyShooting : MonoBehaviour
         return closest;
     }
 
-    void ShootAtTarget(Transform target)
+    void ShootAtTarget()
     {
-        Vector3 offset = transform.rotation * bulletoffset;
-        GameObject bulletGo = Instantiate(bulletPrefab, transform.position + offset, Quaternion.Euler(rotationoffset) * transform.rotation);
-        if (IsVisibleToCamera())
+        Vector3 offset = transform.rotation * bulletOffset;
+        GameObject bulletGo = Instantiate(bulletPrefab, transform.position + offset, Quaternion.Euler(rotationOffset) * transform.rotation);
+
+        if (IsVisibleToCamera() && laserSound != null)
         {
             AudioSource.PlayClipAtPoint(laserSound, transform.position);
         }
-        // Set the Enemy reference and damage on the laser
-        LaserDamageEnemy laserScript = bulletGo.GetComponent<LaserDamageEnemy>();
-        if (laserScript != null)
-        {
-            laserScript.Enemy = enemy; // this is the enemy that fired the laser
-            laserScript.damage = enemy.bulletDamage;
-        }
 
         Destroy(bulletGo, 4f);
-        Debug.Log("Enemy shooting at: " + target.name);
     }
+
     bool IsVisibleToCamera()
     {
         Vector3 viewportPoint = Camera.main.WorldToViewportPoint(transform.position);

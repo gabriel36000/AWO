@@ -12,6 +12,7 @@ public class LaserDamage : MonoBehaviour
     public GameObject PopUpPreFab;
     Enemy enemy;
     public GameObject damageEffect;
+   
 
 
 

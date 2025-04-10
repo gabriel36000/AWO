@@ -51,7 +51,6 @@ public class Enemy : MonoBehaviour
     }
     void Start()
     {
-
         InitializePlayerReferences();
 
         // Find the boss dynamically if this enemy is a minion
@@ -153,25 +152,30 @@ public class Enemy : MonoBehaviour
 
     private void death()
     {
-        if (currentHealth <= 0)
-        {
+            if (currentHealth <= 0)
+            {
+                if (IsVisibleToCamera())
+                {
+                    levelSystem.xp += xpValue;
+                    money.money += UnityEngine.Random.Range(moneyValueLow, moneyValueHigh);
+                    print("money" + money.money);
+                    GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
+                    PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + money.money.ToString();
 
-            levelSystem.xp += xpValue;
-            money.money += UnityEngine.Random.Range(moneyValueLow, moneyValueHigh);
-            print("money" + money.money);
-            GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
-            PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + money.money.ToString();
-
-            Destroy(PopUpmoney, 2.7f);
-            explosion.SetActive(true);
-            Instantiate(explosion, transform.position, transform.rotation);
-            Destroy(gameObject);
-
+                    Destroy(PopUpmoney, 2.7f);
+                    explosion.SetActive(true);
+                    Instantiate(explosion, transform.position, transform.rotation);
+                    Destroy(gameObject);
+                }
+   
+                explosion.SetActive(true);
+                Instantiate(explosion, transform.position, transform.rotation);
+                Destroy(gameObject);
 
 
 
+            }
         }
-    }
     private void go()
     {
         if (target == null)
@@ -421,5 +425,12 @@ public class Enemy : MonoBehaviour
         }
 
         currentHealth = maxHealth;
+    }
+    bool IsVisibleToCamera()
+    {
+        Vector3 viewportPoint = Camera.main.WorldToViewportPoint(transform.position);
+        return viewportPoint.x >= 0 && viewportPoint.x <= 1 &&
+               viewportPoint.y >= 0 && viewportPoint.y <= 1 &&
+               viewportPoint.z > 0;
     }
 }

@@ -13,7 +13,7 @@ public class ItemTooltip : MonoBehaviour
     private StringBuilder sb = new StringBuilder();
 
     public void ShowTooltip(EquippableItem item) {
-        itemName.text = item.ItemName;
+        itemName.text = item.itemName;
         itemSlot.text = item.equipmentType.ToString();
 
         sb.Length = 0;
@@ -46,5 +46,10 @@ public class ItemTooltip : MonoBehaviour
             sb.Append("");
             sb.Append(statName);
         }
+    }
+    void Start()
+    {
+        gameObject.SetActive(true);         // Keep the GameObject active
+        HideTooltip();                      // But hide the visuals
     }
 }

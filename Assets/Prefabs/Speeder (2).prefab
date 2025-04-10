@@ -120,7 +120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4485470896560759294
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5286,7 +5286,7 @@ MonoBehaviour:
   explosion: {fileID: 7705086529208587422}
   enemyName: {fileID: 7705086529892060044}
   enemyHealth: {fileID: 8142342643250123687}
-  bulletDamage: 5
+  bulletDamage: 10
   gotoRange: 10
   player1: {fileID: 6580089978170653522, guid: a418942f4e1adcf4a80191e853e903a7, type: 3}
   moneyValueLow: 0
@@ -5361,6 +5361,7 @@ MonoBehaviour:
     type: 3}
   attackRange: 5
   fireDelay: 0.5
+  laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
   enemy: {fileID: 0}
 --- !u!50 &3305267729849281959
 Rigidbody2D:
@@ -5416,7 +5417,7 @@ Transform:
   m_GameObject: {fileID: 7705086529508003590}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.13, y: -0.15270352, z: -0.4313611}
+  m_LocalPosition: {x: 0.192, y: -0.613, z: -0.431}
   m_LocalScale: {x: 0.043136112, y: 0.043136135, z: 0.43136135}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10179,7 +10180,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10199,7 +10199,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -10308,7 +10308,7 @@ Transform:
   m_GameObject: {fileID: 7705086529660118756}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0.14665957, y: -0.15270352, z: -0.43136114}
+  m_LocalPosition: {x: -0.178, y: -0.613, z: -0.431}
   m_LocalScale: {x: 0.043136112, y: 0.043136206, z: 0.43136135}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15090,7 +15090,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
@@ -25133,7 +25133,7 @@ RectTransform:
   m_GameObject: {fileID: 7705086530929864855}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 125, y: 125, z: 1}
+  m_LocalScale: {x: 100, y: 100, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7705086529301167267}

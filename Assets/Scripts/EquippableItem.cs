@@ -21,6 +21,12 @@ public class EquippableItem : Item
     public int critChance;
     public int speed;
     public int rateOfFire;
+
+    [Header("Ammo Settings")]
+    public int maxAmmo;
+    [HideInInspector]
+    public int currentAmmo;
+
     [Space]
     public EquipmentType equipmentType;
 

@@ -5,15 +5,25 @@ using UnityEngine;
 public class InventoryManager : MonoBehaviour
 {
     ShieldBarScript Shield1;
-    HealthBar health1;
+    Player health1;
     PlayerMovement movement1;
 
     [SerializeField] Inventory inventory;
     [SerializeField] EqupmentPanel equpmentPanel;
-    private void Start() {
+    [SerializeField] private AmmoItem ammoItemScriptableObject; // Drag your AmmoItem ScriptableObject in the inspector
+
+    private void Start()
+    {
+
         movement1 = FindObjectOfType<PlayerMovement>();
         Shield1 = FindObjectOfType<ShieldBarScript>();
-        health1 = FindObjectOfType<HealthBar>();
+        health1 = FindObjectOfType<Player>();
+        inventory.Items.RemoveAll(item => item is AmmoItem);
+        // Always instantiate and then set stack manually
+        AmmoItem newAmmo = Instantiate(ammoItemScriptableObject); // clone the SO
+        newAmmo.currentStack = 120; // reset the clone's stack
+
+        inventory.AddItem(newAmmo);
     }
 
     private void Awake() {

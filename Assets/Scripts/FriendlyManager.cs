@@ -14,6 +14,7 @@ public class FriendlyManager : MonoBehaviour
     void Update()
     {
         spawnTimer += Time.deltaTime;
+        activeFriendly.RemoveAll(enemy => enemy == null);
 
         if (spawnTimer >= spawnInterval && activeFriendly.Count < maxFriendly)
         {

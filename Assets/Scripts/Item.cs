@@ -6,6 +6,12 @@ using UnityEngine;
 
 public class Item : ScriptableObject
 {
-    public string ItemName;
     public Sprite Icon;
+    public string itemName;
+
+    [Header("Stacking")]
+    public bool isStackable;
+    public int maxStack = 999;
+    [HideInInspector]
+    public int currentStack = 1;
 }

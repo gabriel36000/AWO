@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
 
     private int Hp;
     private int Shield;
+    private int speed;
     public int minDamage;
     public int maxDamage;
     public int damage;
@@ -49,6 +50,8 @@ public class Player : MonoBehaviour {
     public TextMeshProUGUI tmpDamage;
     public int damageSkill = 0;
     public TextMeshProUGUI tmp;
+    public int speedSkill = 0;
+    public TextMeshProUGUI speedText;
 
     public void IncreaseHP()
     {
@@ -80,6 +83,10 @@ public class Player : MonoBehaviour {
         {
             stats.currentSkillPoints--;
             damageSkill++;
+            float newMinDamage = minDamage * (1 + damageSkill * percentPerPoint);
+            SetMinDamage(Mathf.RoundToInt(newMinDamage - minDamage));
+            float newMaxDamage = maxDamage * (1 + damageSkill * percentPerPoint);
+            SetMaxDamage(Mathf.RoundToInt(newMaxDamage - maxDamage));
             tmpDamage.text = damageSkill.ToString();
             tmp.text = stats.currentSkillPoints.ToString();
         }
@@ -203,6 +210,18 @@ public class Player : MonoBehaviour {
     {
         maxHealth += health;
         currentHealth = maxHealth;
+    }
+
+    public void SetMinDamage(int SetminDamage)
+    {
+        minDamage += SetminDamage;
+        
+    }
+
+    public void SetMaxDamage(int SetmaxDamage1)
+    {
+        maxDamage += SetmaxDamage1;
+        
     }
 
     void CheckDeath()

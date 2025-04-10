@@ -13,9 +13,19 @@ public class LaserDamageEnemy : MonoBehaviour
     public GameObject HealthBarColor;
     public GameObject damageEffect;
     public GameObject PopUpPreFab;
+    public Enemy Enemy;
 
     void Start()
     {
+        if (Enemy != null)
+        {
+            damage = Enemy.bulletDamage;
+        }
+        else
+        {
+            Debug.LogWarning("Enemy not assigned to laser!");
+        }
+
         ShieldBarColor = GameObject.Find("ShieldBarColor");
         HealthBarColor = GameObject.Find("HealthBarColor");
 
