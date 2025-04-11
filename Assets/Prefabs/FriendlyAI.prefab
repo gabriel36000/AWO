@@ -5322,7 +5322,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies: []
   boss: {fileID: 5130545678822833736, guid: 8e13d4dfbcf6e0f4fbece375d10b80ae, type: 3}
-  bulletPrefab: {fileID: 1912416879857922, guid: 10fb6d7c8aa9a1c4eb63c184b12619d7,
+  bulletPrefab: {fileID: 1912416879857922, guid: 9d70c1411ad22a84bac1dc3781f430cf,
     type: 3}
   attackRange: 10
   fireDelay: 0.5
@@ -5370,6 +5370,10 @@ MonoBehaviour:
   maxSpeed: 4
   stoppingDistance: 1
   rotationSpeed: 1
+  minDamage: 1
+  maxDamage: 15
+  damage: 0
+  criticalChance: 10
   currentHealth: 0
   maxHealth: 100
   xpValue: 0

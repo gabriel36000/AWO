@@ -77,14 +77,24 @@ public class AIShooter : MonoBehaviour
     public void ShootAtTarget(GameObject target)
     {
         Vector3 shootingDirection = (target.transform.position - transform.position).normalized;
-        Quaternion rotation = Quaternion.LookRotation(Vector3.forward, shootingDirection); // Rotate towards target
+        Quaternion rotation = Quaternion.LookRotation(Vector3.forward, shootingDirection);
 
         // Instantiate the bullet
         GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, rotation);
+
+        // Assign the Friendly to the laser
+        FriendlyLaserDamage laserScript = bulletInstance.GetComponent<FriendlyLaserDamage>();
+        Friendly friendly = GetComponent<Friendly>(); // Get the friendly who is shooting
+        if (laserScript != null && friendly != null)
+        {
+            laserScript.Setup(friendly);
+        }
+
         if (IsVisibleToCamera())
         {
             AudioSource.PlayClipAtPoint(laserSound, transform.position);
         }
+
         // Destroy the instantiated bullet after 4 seconds
         Destroy(bulletInstance, 4f);
     }

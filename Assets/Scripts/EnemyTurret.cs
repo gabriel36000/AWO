@@ -13,6 +13,7 @@ public class EnemyTurret : MonoBehaviour
     public Vector3 rotationOffset = new Vector3(0, 0, 0);
     public float fireDelay = 0.5f;
     public AudioClip laserSound;
+    public int currentDamage = 10;
 
     private float cooldownTimer = 0f;
     private Transform target;

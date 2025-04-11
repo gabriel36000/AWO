@@ -5,5 +5,5 @@ using TMPro;
 
 public class PopUpScript : MonoBehaviour
 {
-    
+    public TextMeshPro textMesh;
 }

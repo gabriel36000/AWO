@@ -276,8 +276,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8791156453929636184}
   - component: {fileID: 8791156453929636185}
-  - component: {fileID: 8791156453929636165}
-  - component: {fileID: 8791156453929636164}
   m_Layer: 0
   m_Name: ShipTurret
   m_TagString: Enemy
@@ -353,43 +351,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8791156453929636165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8791156453929636186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce9806d029af1b74ab9a6993f200d83a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletoffset: {x: -0.15, y: 0.6, z: 0}
-  rotationoffset: {x: 0, y: 0, z: 0}
-  bulletPrefab: {fileID: 4709330154682315108, guid: b8e49448d35895d4e9172d4edb9e337e,
-    type: 3}
-  attackRange: 20
-  fireDelay: 0.3
-  laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
-  enemy: {fileID: 0}
---- !u!114 &8791156453929636164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8791156453929636186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ce9806d029af1b74ab9a6993f200d83a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bulletoffset: {x: 0.15, y: 0.6, z: 0}
-  rotationoffset: {x: 0, y: 0, z: 0}
-  bulletPrefab: {fileID: 4709330154682315108, guid: b8e49448d35895d4e9172d4edb9e337e,
-    type: 3}
-  attackRange: 20
-  fireDelay: 0.3
-  laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
-  enemy: {fileID: 0}

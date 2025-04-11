@@ -14,12 +14,16 @@ public class LaserDamageEnemy : MonoBehaviour
     public GameObject damageEffect;
     public GameObject PopUpPreFab;
     public Enemy Enemy;
+    public EnemyTurret EnemyTurret;
 
     void Start()
     {
         if (Enemy != null)
         {
             damage = Enemy.bulletDamage;
+        }
+        else if(EnemyTurret != null){
+            damage = EnemyTurret.currentDamage;
         }
         else
         {

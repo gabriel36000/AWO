@@ -6,18 +6,12 @@ using TMPro;
 public class LaserDamage : MonoBehaviour
 {
     public int damage;
-
-    Player player;
+    private Player player;
     public GameObject player1;
     public GameObject PopUpPreFab;
-    Enemy enemy;
     public GameObject damageEffect;
-   
 
-
-
-
-
+    public float criticalMultiplier = 2f; // How much to multiply damage on crit (2x by default)
 
     public void Start()
     {
@@ -45,7 +39,6 @@ public class LaserDamage : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        // Try to get player reference if it's null
         if (player == null)
         {
             GameObject playerObj = GameObject.Find("Player");
@@ -59,19 +52,41 @@ public class LaserDamage : MonoBehaviour
             }
         }
 
-        // Now proceed with normal collision logic
         if (col.CompareTag("Enemy") || col.CompareTag("Boss"))
         {
-            col.GetComponent<Enemy>().currentHealth -= damage;
+            int finalDamage = damage;
 
-            GameObject instance = Instantiate(damageEffect, transform.position, transform.rotation);
-            Destroy(instance, 1f);
+            // === Critical Hit Calculation ===
+            int randomRoll = Random.Range(0, 100); // Random number between 0 and 99
+            if (randomRoll < player.criticalChance)
+            {
+                finalDamage = Mathf.RoundToInt(damage * criticalMultiplier);
 
+                // Optional: spawn special popup for critical
+                GameObject critPopUp = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
+                critPopUp.transform.GetChild(0).GetComponent<TextMeshPro>().text = "CRIT! " + finalDamage.ToString();
+                Destroy(critPopUp, 0.7f);
+            }
+            else
+            {
+                // Normal hit popup
+                GameObject popUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
+                popUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = finalDamage.ToString();
+                Destroy(popUpDamage, 0.7f);
+            }
+
+            // Apply damage
+            col.GetComponent<Enemy>().currentHealth -= finalDamage;
+
+            // Damage effect
+            if (damageEffect != null)
+            {
+                GameObject instance = Instantiate(damageEffect, transform.position, transform.rotation);
+                Destroy(instance, 1f);
+            }
+
+            // Destroy the bullet
             Destroy(gameObject);
-
-            GameObject PopUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
-            PopUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = damage.ToString();
-            Destroy(PopUpDamage, 0.7f);
         }
     }
 }

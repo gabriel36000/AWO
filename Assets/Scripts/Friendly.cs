@@ -11,6 +11,10 @@ public class Friendly : MonoBehaviour
     public float maxSpeed;
     public float stoppingDistance;
     public float rotationSpeed;
+    public int minDamage;
+    public int maxDamage;
+    public int damage;
+    public int criticalChance;
     private Transform target;
     public int currentHealth;
     public int maxHealth;
@@ -38,6 +42,7 @@ public class Friendly : MonoBehaviour
     {
         friendlyHealth.fillAmount = (float)currentHealth / maxHealth;
         FindClosestEnemy();
+        damage = Random.Range(minDamage, maxDamage);
 
         if (currentHealth >= maxHealth * 0.25f)
         {

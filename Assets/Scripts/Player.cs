@@ -13,10 +13,10 @@ public class Player : MonoBehaviour {
 
     private int Hp;
     private int Shield;
-    private int speed;
     public int minDamage;
     public int maxDamage;
     public int damage;
+    public int criticalChance = 0;
     public GameObject healthBar1;
     public GameObject shieldBar1;
     public GameObject player;
@@ -24,6 +24,7 @@ public class Player : MonoBehaviour {
     public GameObject PopUpHealth;
     public float percentPerPoint = 0.05f;
     public GameObject button;
+    public PlayerMovement playerMovement;
 
     LevelSystem levelSystem;
     ShieldBarScript shieldBar;
@@ -52,6 +53,8 @@ public class Player : MonoBehaviour {
     public TextMeshProUGUI tmp;
     public int speedSkill = 0;
     public TextMeshProUGUI speedText;
+    public int criticalSkill = 0;
+    public TextMeshProUGUI criticalText;
 
     public void IncreaseHP()
     {
@@ -92,6 +95,41 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public void IncreaseSpeed()
+    {
+        if (stats.currentSkillPoints > 0)
+        {
+            stats.currentSkillPoints--;
+            speedSkill++;
+            float newSpeed = playerMovement.maxSpeed + 1;
+            float newBoostSpeed = playerMovement.MaxBoostspeed + 1;
+            SetSpeed(Mathf.RoundToInt(newSpeed - playerMovement.maxSpeed));
+            SetBoostSpeed(Mathf.RoundToInt(newBoostSpeed - playerMovement.MaxBoostspeed));
+            speedText.text = speedSkill.ToString();
+            tmp.text = stats.currentSkillPoints.ToString();
+        }
+    }
+
+    public void IncreaseCritcalChance()
+    {
+        if (stats.currentSkillPoints > 0)
+        {
+            if(criticalChance == 100)
+            {
+                print("Max criticalChance");
+            }
+            else
+            {
+                stats.currentSkillPoints--;
+                criticalSkill++;
+                float newCriticalChance = criticalChance + 1;
+                SetCriticalChance(Mathf.RoundToInt(newCriticalChance - criticalChance));
+                criticalText.text = criticalSkill.ToString();
+                tmp.text = stats.currentSkillPoints.ToString();
+            }
+        }
+    }
+    
     public void Start()
     {
         healthBar1 = GameObject.Find("HealthBarColor");
@@ -101,6 +139,7 @@ public class Player : MonoBehaviour {
         levelSystem = player.GetComponent<LevelSystem>();
         shieldBar = shieldBar1.GetComponent<ShieldBarScript>();
         stats = player.GetComponent<CharacterStatsManager>();
+        playerMovement = player.GetComponent<PlayerMovement>();
 
         healthBarColor = healthBar1.GetComponent<Image>();
         currentHealth = maxHealth;
@@ -222,6 +261,18 @@ public class Player : MonoBehaviour {
     {
         maxDamage += SetmaxDamage1;
         
+    }
+    public void SetSpeed(int speed1)
+    {
+        playerMovement.maxSpeed += speed1;
+    }
+    public void SetBoostSpeed(int boostSpeed1)
+    {
+        playerMovement.MaxBoostspeed += boostSpeed1;
+    }
+    public void SetCriticalChance(int criticalChance1)
+    {
+        criticalChance += criticalChance1;
     }
 
     void CheckDeath()

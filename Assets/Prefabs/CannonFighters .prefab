@@ -10122,7 +10122,7 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 4
   stoppingDistance: 5
-  rotationSpeed: 3
+  rotationSpeed: 2
   player: {fileID: 0}
   currentHealth: 0
   maxHealth: 250
@@ -29965,7 +29965,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7705086530929864848
 RectTransform:
   m_ObjectHideFlags: 0
@@ -30053,7 +30053,7 @@ PrefabInstance:
     - target: {fileID: 8791156453929636184, guid: adc14565e42f2724a8c729e67bb25412,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.3
       objectReference: {fileID: 0}
     - target: {fileID: 8791156453929636184, guid: adc14565e42f2724a8c729e67bb25412,
         type: 3}
@@ -30100,9 +30100,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShipTurret
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 8791156453929636165, guid: adc14565e42f2724a8c729e67bb25412, type: 3}
-    - {fileID: 8791156453929636164, guid: adc14565e42f2724a8c729e67bb25412, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
