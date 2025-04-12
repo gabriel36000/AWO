@@ -8,6 +8,7 @@ public class FriendlyLaserDamage : MonoBehaviour
     public int damage;
     private Friendly friendly;
     public GameObject PopUpPreFab;
+    public GameObject PopUpPreFabCritical;
     public GameObject damageEffect;
     public float criticalMultiplier = 2f;
 
@@ -35,7 +36,7 @@ public class FriendlyLaserDamage : MonoBehaviour
             {
                 finalDamage = Mathf.RoundToInt(damage * criticalMultiplier);
 
-                GameObject critPopUp = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
+                GameObject critPopUp = Instantiate(PopUpPreFabCritical, transform.position, Quaternion.identity);
                 if (critPopUp.transform.childCount > 0)
                 {
                     var textMesh = critPopUp.transform.GetChild(0).GetComponent<TextMeshPro>();

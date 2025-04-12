@@ -21,10 +21,10 @@ public class Player : MonoBehaviour {
     public GameObject shieldBar1;
     public GameObject player;
     public CharacterStatsManager stats;
-    public GameObject PopUpHealth;
     public float percentPerPoint = 0.05f;
     public GameObject button;
     public PlayerMovement playerMovement;
+    public GameObject healingTextGameObject;
 
     LevelSystem levelSystem;
     ShieldBarScript shieldBar;
@@ -186,7 +186,17 @@ public class Player : MonoBehaviour {
     {
         if ((Time.time > lastTime + regenrate) && (currentHealth < maxHealth))
         {
-            currentHealth += 1;
+            int healAmount = Mathf.CeilToInt(maxHealth * 0.01f); // 1% of max health, rounded up
+            currentHealth += healAmount;
+
+            // Make sure currentHealth does not go over maxHealth
+            if (currentHealth > maxHealth)
+                currentHealth = maxHealth;
+
+            GameObject healPopUp = Instantiate(healingTextGameObject, transform.position, Quaternion.identity);
+            healPopUp.transform.GetChild(0).GetComponent<TextMeshPro>().text = "+" + healAmount.ToString(); // Show heal amount
+            Destroy(healPopUp, 1f);
+
             lastTime = Time.time;
         }
     }

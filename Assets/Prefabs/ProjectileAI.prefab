@@ -285,6 +285,8 @@ MonoBehaviour:
   damage: 0
   PopUpPreFab: {fileID: 5301794707348302735, guid: f0346b208590a3645bb5efa20de7ce54,
     type: 3}
+  PopUpPreFabCritical: {fileID: 5301794707348302735, guid: 93ce6008ed97fa34ebc2bda4b8da0121,
+    type: 3}
   damageEffect: {fileID: 4362149864719297423, guid: 867e580ea9aa6774dbca07e1e274e0e4,
     type: 3}
   criticalMultiplier: 2

@@ -10,6 +10,7 @@ public class LaserDamage : MonoBehaviour
     public GameObject player1;
     public GameObject PopUpPreFab;
     public GameObject damageEffect;
+    public GameObject PopUpPreFabCritcal;
 
     public float criticalMultiplier = 2f; // How much to multiply damage on crit (2x by default)
 
@@ -63,7 +64,7 @@ public class LaserDamage : MonoBehaviour
                 finalDamage = Mathf.RoundToInt(damage * criticalMultiplier);
 
                 // Optional: spawn special popup for critical
-                GameObject critPopUp = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
+                GameObject critPopUp = Instantiate(PopUpPreFabCritcal, transform.position, Quaternion.identity);
                 critPopUp.transform.GetChild(0).GetComponent<TextMeshPro>().text = "CRIT! " + finalDamage.ToString();
                 Destroy(critPopUp, 0.7f);
             }
