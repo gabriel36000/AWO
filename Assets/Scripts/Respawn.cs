@@ -10,7 +10,6 @@ public class Respawn : MonoBehaviour
     public GameObject[] respawns;
     public Button respawnButton;
 
-    private ShieldBarScript shield;
     private Player playerScript;
 
     void Start()
@@ -20,9 +19,6 @@ public class Respawn : MonoBehaviour
         if (player != null)
         {
             playerScript = player.GetComponent<Player>();
-            GameObject shieldBar = GameObject.Find("ShieldBarColor");
-            if (shieldBar != null)
-                shield = shieldBar.GetComponent<ShieldBarScript>();
         }
         else
         {
@@ -36,11 +32,13 @@ public class Respawn : MonoBehaviour
         {
             player.transform.position = respawnPrefab.transform.position;
             playerScript.currentHealth = playerScript.maxHealth;
-
-            if (shield != null)
-                shield.currentShield = shield.maxShield;
+            playerScript.currentShield = playerScript.maxShield; // ✅ Restore shield directly
 
             player.SetActive(true);
+
+            // Optional: If you want, update UI immediately too:
+            playerScript.UpdateHealthBar();
+            playerScript.UpdateShieldBar();
         }
     }
 }

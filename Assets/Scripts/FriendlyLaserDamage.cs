@@ -11,7 +11,8 @@ public class FriendlyLaserDamage : MonoBehaviour
     public GameObject PopUpPreFabCritical;
     public GameObject damageEffect;
     public float criticalMultiplier = 2f;
-
+    public VolumeMaker volumeMaker;
+    public AudioClip healthHitSound;
     public void Setup(Friendly owner) // << New
     {
         friendly = owner;
@@ -56,7 +57,7 @@ public class FriendlyLaserDamage : MonoBehaviour
                 }
                 Destroy(popUpDamage, 0.7f);
             }
-
+            VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
             col.GetComponent<Enemy>().currentHealth -= finalDamage;
 
             if (damageEffect != null)

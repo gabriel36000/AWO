@@ -11,9 +11,7 @@ public class LevelSystem : MonoBehaviour {
     int[] levelHealth = { 10, 30, 50, 100 };
     int[] levelShield = { 100, 200, 300, 400 };
     public TextMeshPro levelText;
-    public ShieldBarScript shieldBar;
     public Image xpBackground;
-    public GameObject playerHealth;
     BoxCollider2D bx;
     Player player;
     CharacterStatsManager statsManager;
@@ -21,7 +19,6 @@ public class LevelSystem : MonoBehaviour {
 
     void Start() {
         player = GetComponent<Player>();
-        playerHealth = GameObject.Find("Player");
         statsManager =  GetComponent<CharacterStatsManager>();
         bx = GetComponent<BoxCollider2D>();
         
@@ -64,7 +61,7 @@ public class LevelSystem : MonoBehaviour {
     public void Levelup() {
         levelText.text = "Level: " + (level + 2);
         player.SetMaxHealth(levelHealth[level]);
-        shieldBar.SetMaxShield(levelShield[level]);
+        player.SetMaxShield(levelShield[level]);
         statsManager.currentSkillPoints += 1;
         
         

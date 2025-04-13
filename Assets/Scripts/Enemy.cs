@@ -40,6 +40,8 @@ public class Enemy : MonoBehaviour
     public bool IsRetreating => isRetreating;
     private Transform friendlyTarget;
     private Rigidbody2D rb;
+    public VolumeMaker volumeMaker;
+    public AudioClip explosionSound;
 
 
 
@@ -167,7 +169,7 @@ public class Enemy : MonoBehaviour
                     Instantiate(explosion, transform.position, transform.rotation);
                     Destroy(gameObject);
                 }
-   
+                VolumeMaker.Play2DSoundIfCloseToCamera(explosionSound, transform.position, 20f, 0.3f);
                 explosion.SetActive(true);
                 Instantiate(explosion, transform.position, transform.rotation);
                 Destroy(gameObject);

@@ -19,7 +19,6 @@ public class CharacterStatsManager : MonoBehaviour
     GameObject player;
     Player playerScript;
     PlayerMovement movement;
-    ShieldBarScript shieldBar;
 
     void Start()
     {
@@ -29,7 +28,6 @@ public class CharacterStatsManager : MonoBehaviour
         {
             playerScript = player.GetComponent<Player>();
             movement = player.GetComponent<PlayerMovement>();
-            shieldBar = GameObject.Find("ShieldBarColor").GetComponent<ShieldBarScript>();
         }
         else
         {
@@ -43,7 +41,7 @@ public class CharacterStatsManager : MonoBehaviour
         {
             maxMovementText.text = movement.maxSpeed.ToString("0");
             maxHealth.text = playerScript.maxHealth.ToString("0");
-            maxShield.text = shieldBar.maxShield.ToString("0");
+            maxShield.text = playerScript.maxShield.ToString("0");
             skillPointGUI.text = currentSkillPoints.ToString("0");
             minDmg.text = playerScript.minDamage.ToString("0");
             maxDmg.text = playerScript.maxDamage.ToString("0");

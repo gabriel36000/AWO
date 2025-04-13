@@ -10094,6 +10094,8 @@ MonoBehaviour:
   safeDistance: 25
   isMinion: 1
   bossTransform: {fileID: 0}
+  volumeMaker: {fileID: 0}
+  explosionSound: {fileID: 8300000, guid: 7e90eeb600b999e4283d694e2e42fdcd, type: 3}
 --- !u!61 &6443797025372747306
 BoxCollider2D:
   m_ObjectHideFlags: 0

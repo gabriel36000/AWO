@@ -5383,6 +5383,8 @@ MonoBehaviour:
   gotoRange: 10
   healRate: 1
   healInterval: 1
+  volumeMaker: {fileID: 0}
+  explosionSound: {fileID: 8300000, guid: 7e90eeb600b999e4283d694e2e42fdcd, type: 3}
 --- !u!1 &7705086529508003590
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,8 +13,7 @@ public enum EquipmentType {
 [CreateAssetMenu]
 public class EquippableItem : Item
 {
-    ShieldBarScript Shield1;
-   
+    [Header("Stats")]
     public int damage;
     public int health;
     public int shield;
@@ -27,27 +26,45 @@ public class EquippableItem : Item
     [HideInInspector]
     public int currentAmmo;
 
-    [Space]
     public EquipmentType equipmentType;
 
-    public void start() {
-        Shield1 = FindObjectOfType<ShieldBarScript>();
-        
-    }
+    public void Equip(InventoryManager c)
+    {
+        Player player = GameObject.FindObjectOfType<Player>();
+        PlayerMovement movement = GameObject.FindObjectOfType<PlayerMovement>();
 
-    public void Equip(InventoryManager c) {
-        if(shield != 0) {
-           
-            
+        if (player != null)
+        {
+            player.maxHealth += health;
+            player.maxShield += shield;
+            player.minDamage += damage;
+            player.maxDamage += damage;
+            player.criticalChance += critChance;
         }
-                
+
+        if (movement != null)
+        {
+            movement.maxSpeed += speed;
+        }
     }
 
+    public void Unequip(InventoryManager c)
+    {
+        Player player = GameObject.FindObjectOfType<Player>();
+        PlayerMovement movement = GameObject.FindObjectOfType<PlayerMovement>();
 
-    public void Unequip(InventoryManager c) {
-        
-        
+        if (player != null)
+        {
+            player.maxHealth -= health;
+            player.maxShield -= shield;
+            player.minDamage -= damage;
+            player.maxDamage -= damage;
+            player.criticalChance -= critChance;
+        }
+
+        if (movement != null)
+        {
+            movement.maxSpeed -= speed;
+        }
     }
-
-    
 }

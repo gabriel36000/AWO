@@ -30,6 +30,8 @@ public class Friendly : MonoBehaviour
     public int healRate = 1;
     public float healInterval = 1f;
     private float healTimer = 0f;
+    public VolumeMaker volumeMaker;
+    public AudioClip explosionSound;
 
     void Start()
     {
@@ -178,6 +180,7 @@ public class Friendly : MonoBehaviour
     {
         if (currentHealth <= 0)
         {
+            VolumeMaker.Play2DSoundIfCloseToCamera(explosionSound, transform.position, 20f, 0.3f);
             explosion.SetActive(true);
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);

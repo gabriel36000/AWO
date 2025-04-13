@@ -9958,7 +9958,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -10142,6 +10141,8 @@ MonoBehaviour:
   safeDistance: 50
   isMinion: 0
   bossTransform: {fileID: 0}
+  volumeMaker: {fileID: 0}
+  explosionSound: {fileID: 8300000, guid: 7e90eeb600b999e4283d694e2e42fdcd, type: 3}
 --- !u!61 &7705086529301167293
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -24815,7 +24816,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -29896,7 +29896,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 10308, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -30129,6 +30128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8791156453929636185, guid: adc14565e42f2724a8c729e67bb25412,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8791156453929636186, guid: adc14565e42f2724a8c729e67bb25412,
         type: 3}

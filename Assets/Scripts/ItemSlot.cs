@@ -19,21 +19,25 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         set
         {
             _item = value;
-
             if (_item == null)
             {
                 image.enabled = false;
-                stackText.text = "";
+                if (stackText != null) // <<< ADD THIS LINE
+                {
+                    stackText.text = "";
+                }
             }
             else
             {
                 image.sprite = _item.Icon;
                 image.enabled = true;
 
-                
-                stackText.text = (_item.isStackable && _item.currentStack > 0)
-                    ? _item.currentStack.ToString()
-                    : "";
+                if (stackText != null)
+                {
+                    stackText.text = (_item.isStackable && _item.currentStack > 0)
+                        ? _item.currentStack.ToString()
+                        : "";
+                }
             }
         }
     }

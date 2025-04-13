@@ -14,14 +14,10 @@ public class DeathZone : MonoBehaviour
     public GameObject Shield;
     public GameObject player1;
     bool TimerStarted = false;
-    HealthBar healthbar;
-    ShieldBarScript shieldBar;
 
     public void Start() {
         player1 = GameObject.Find("Player");
         player = player1.GetComponent<Player>();
-        Shield = GameObject.Find("ShieldBarColor");
-        shieldBar = Shield.GetComponent<ShieldBarScript>();
     }
 
     public void Update() {
@@ -31,7 +27,7 @@ public class DeathZone : MonoBehaviour
 
             if (timeLeft <= 0) {
                 player.currentHealth = 0;
-                shieldBar.currentShield = 0;
+                player.currentShield = 0;
             }
         }
     }

@@ -7,14 +7,14 @@ using static UnityEngine.Rendering.DebugUI;
 public class LaserDamageEnemy : MonoBehaviour
 {
     public int damage;
-    private ShieldBarScript shield;
     private Player playerScript;
-    public GameObject ShieldBarColor;
-    public GameObject HealthBarColor;
     public GameObject damageEffect;
     public GameObject PopUpPreFab;
     public Enemy Enemy;
     public EnemyTurret EnemyTurret;
+    public AudioClip shieldHitSound;
+    public VolumeMaker volumeMaker;
+    public AudioClip healthHitSound;
 
     void Start()
     {
@@ -22,19 +22,14 @@ public class LaserDamageEnemy : MonoBehaviour
         {
             damage = Enemy.bulletDamage;
         }
-        else if(EnemyTurret != null){
+        else if (EnemyTurret != null)
+        {
             damage = EnemyTurret.currentDamage;
         }
         else
         {
             Debug.LogWarning("Enemy not assigned to laser!");
         }
-
-        ShieldBarColor = GameObject.Find("ShieldBarColor");
-        HealthBarColor = GameObject.Find("HealthBarColor");
-
-        if (ShieldBarColor != null)
-            shield = ShieldBarColor.GetComponent<ShieldBarScript>();
 
         GameObject playerObject = GameObject.Find("Player");
         if (playerObject != null)
@@ -49,13 +44,15 @@ public class LaserDamageEnemy : MonoBehaviour
         {
             if (col.CompareTag("Player"))
             {
-                if (shield != null && shield.currentShield > 0)
+                if (playerScript.currentShield > 0)
                 {
-                    shield.currentShield -= damage;
-                    shield.lastTime = Time.time;
+                    VolumeMaker.Play2DSoundIfCloseToCamera(shieldHitSound, transform.position, 20f, 0.5f);
+                    playerScript.currentShield -= damage;
+                    playerScript.lastShieldRegenTime = Time.time;
                 }
                 else if (playerScript != null)
                 {
+                    VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
                     playerScript.currentHealth -= damage;
                 }
             }
@@ -64,6 +61,7 @@ public class LaserDamageEnemy : MonoBehaviour
                 Friendly friendlyAI = col.GetComponent<Friendly>();
                 if (friendlyAI != null)
                 {
+                    VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f  , 0.1f);
                     friendlyAI.currentHealth -= damage;
                 }
             }

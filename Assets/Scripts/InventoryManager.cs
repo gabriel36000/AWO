@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    ShieldBarScript Shield1;
     Player health1;
     PlayerMovement movement1;
 
@@ -16,7 +15,6 @@ public class InventoryManager : MonoBehaviour
     {
 
         movement1 = FindObjectOfType<PlayerMovement>();
-        Shield1 = FindObjectOfType<ShieldBarScript>();
         health1 = FindObjectOfType<Player>();
         inventory.Items.RemoveAll(item => item is AmmoItem);
         // Always instantiate and then set stack manually
@@ -41,35 +39,93 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void Equip(EquippableItem item) {
-        if (inventory.RemoveItem(item)) {
+    public void Equip(EquippableItem item)
+    {
+        if (inventory.RemoveItem(item))
+        {
             EquippableItem previousItem;
-            if(equpmentPanel.AddItem(item, out previousItem)) {
-                if(previousItem != null) {
-                    inventory.AddItem(previousItem);
-                    
+            if (equpmentPanel.AddItem(item, out previousItem))
+            {
+                if (previousItem != null)
+                {
+                    inventory.AddItem(Instantiate(previousItem));
+                    UnequipStats(previousItem); // 💥 important: remove old stats
                 }
+
+                EquipStats(item); // 💥 apply new stats
+
                 item.Equip(this);
-                Shield1.maxShield += item.shield;
-                health1.maxHealth += item.health;
-                movement1.maxSpeed += item.speed;
-                Debug.Log("Hello");
-
             }
-
-            else {
-                
-                inventory.AddItem(item);
+            else
+            {
+                inventory.AddItem(Instantiate(item));
             }
         }
     }
-    public void Unequip(EquippableItem item) {
-        if(!inventory.IsFull() && equpmentPanel.RemoveItem(item)) {
-            Shield1.maxShield -= item.shield;
+
+    public void Unequip(EquippableItem item)
+    {
+        if (!inventory.IsFull() && equpmentPanel.RemoveItem(item))
+        {
+            UnequipStats(item); // 💥 remove stats
+            inventory.AddItem(Instantiate(item));
+        }
+    }
+    private void EquipStats(EquippableItem item)
+    {
+        if (item == null) return;
+
+        if (health1 != null)
+        {
+            health1.maxHealth += item.health;
+            health1.maxShield += item.shield;
+            health1.minDamage += item.damage;
+            health1.maxDamage += item.damage;
+            health1.criticalChance += item.critChance;
+
+            // Track bonuses
+            health1.bonusHealth += item.health;
+            health1.bonusShield += item.shield;
+            health1.bonusDamage += item.damage;
+            health1.bonusCritChance += item.critChance;
+        }
+
+        if (movement1 != null)
+        {
+            movement1.maxSpeed += item.speed;
+            health1.bonusSpeed += item.speed;
+        }
+
+        health1.UpdateHealthBar();
+        health1.UpdateShieldBar();
+    }
+
+    private void UnequipStats(EquippableItem item)
+    {
+        if (item == null) return;
+
+        if (health1 != null)
+        {
             health1.maxHealth -= item.health;
-            movement1.maxSpeed -= item.speed;
-            inventory.AddItem(item);
+            health1.maxShield -= item.shield;
+            health1.minDamage -= item.damage;
+            health1.maxDamage -= item.damage;
+            health1.criticalChance -= item.critChance;
+
+            // Remove bonuses
+            health1.bonusHealth -= item.health;
+            health1.bonusShield -= item.shield;
+            health1.bonusDamage -= item.damage;
+            health1.bonusCritChance -= item.critChance;
         }
+
+        if (movement1 != null)
+        {
+            movement1.maxSpeed -= item.speed;
+            health1.bonusSpeed -= item.speed;
+        }
+
+        health1.UpdateHealthBar();
+        health1.UpdateShieldBar();
     }
-    
 }

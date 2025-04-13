@@ -11,6 +11,8 @@ public class LaserDamage : MonoBehaviour
     public GameObject PopUpPreFab;
     public GameObject damageEffect;
     public GameObject PopUpPreFabCritcal;
+    public VolumeMaker volumeMaker;
+    public AudioClip healthHitSound;
 
     public float criticalMultiplier = 2f; // How much to multiply damage on crit (2x by default)
 
@@ -66,7 +68,7 @@ public class LaserDamage : MonoBehaviour
                 // Optional: spawn special popup for critical
                 GameObject critPopUp = Instantiate(PopUpPreFabCritcal, transform.position, Quaternion.identity);
                 critPopUp.transform.GetChild(0).GetComponent<TextMeshPro>().text = "CRIT! " + finalDamage.ToString();
-                Destroy(critPopUp, 0.7f);
+                Destroy(critPopUp, 1f);
             }
             else
             {
@@ -75,7 +77,7 @@ public class LaserDamage : MonoBehaviour
                 popUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = finalDamage.ToString();
                 Destroy(popUpDamage, 0.7f);
             }
-
+            VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
             // Apply damage
             col.GetComponent<Enemy>().currentHealth -= finalDamage;
 
