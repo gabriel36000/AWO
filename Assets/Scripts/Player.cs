@@ -55,9 +55,11 @@ public class Player : MonoBehaviour
     public CharacterStatsManager stats;
     public PlayerMovement playerMovement;
     public GameObject healingTextGameObject;
+    public GameObject shieldTextGameObject;
     public GameObject explosion;
     public VolumeMaker volumeMaker;
     public AudioClip explosionSound;
+    public float fireRateDelay = 0.5f;
 
     LevelSystem levelSystem;
 
@@ -74,6 +76,8 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI speedText;
     public int criticalSkill = 0;
     public TextMeshProUGUI criticalText;
+    public int rateOfFireSkill = 0;
+    public TextMeshProUGUI rateOfFireText;
 
     // Saving variables
     private int Hp;
@@ -181,23 +185,29 @@ public class Player : MonoBehaviour
 
     public void RegenerateShield()
     {
-        // Always clamp shield to 0 if damaged too low
         if (currentShield < 0)
             currentShield = 0;
 
-        // Only regenerate if FULL HEALTH
-        if (currentHealth == maxHealth)
+        // Safer health check (>= instead of ==)
+        if (currentHealth >= maxHealth && currentShield < maxShield)
         {
-            if (currentShield < maxShield)
+            if (Time.time > lastShieldRegenTime + shieldRegenRate)
             {
-                if (Time.time > lastShieldRegenTime + shieldRegenRate)
-                {
-                    currentShield += Mathf.CeilToInt(maxShield * 0.10f); // regen 10% of maxShield
-                    if (currentShield > maxShield)
-                        currentShield = maxShield;
+                int shieldRegenAmount = Mathf.CeilToInt(maxShield * 0.10f);
+                currentShield += shieldRegenAmount;
 
-                    lastShieldRegenTime = Time.time;
+                if (healingTextGameObject != null)
+                {
+                    GameObject shieldPopUp = Instantiate(healingTextGameObject, transform.position, Quaternion.identity);
+                    shieldPopUp.transform.GetChild(0).GetComponent<TextMeshPro>().text = "+" + shieldRegenAmount.ToString();
+                    shieldPopUp.transform.GetChild(0).GetComponent<TextMeshPro>().color = Color.cyan;
+                    Destroy(shieldPopUp, 1f);
                 }
+
+                if (currentShield > maxShield)
+                    currentShield = maxShield;
+
+                lastShieldRegenTime = Time.time;
             }
         }
     }
@@ -323,6 +333,18 @@ public class Player : MonoBehaviour
             tmp.text = stats.currentSkillPoints.ToString();
         }
     }
+    public void IncreaseRateOfFire()
+    {
+        if (stats.currentSkillPoints > 0)
+        {
+            stats.currentSkillPoints--;
+            rateOfFireSkill++;
+            fireRateDelay *= 0.97f; // Reduce delay by 3%
+            fireRateDelay = Mathf.Clamp(fireRateDelay, 0.1f, 1f);
+            rateOfFireText.text = rateOfFireSkill.ToString();
+            tmp.text = stats.currentSkillPoints.ToString();
+        }
+    }
 
     public void IncreaseSpeed()
     {
@@ -361,4 +383,5 @@ public class Player : MonoBehaviour
     public void SetSpeed(int amount) => playerMovement.maxSpeed += amount;
     public void SetBoostSpeed(int amount) => playerMovement.MaxBoostspeed += amount;
     public void SetCriticalChance(int amount) => criticalChance += amount;
+    public void SetRateOfFire(int amount) => fireRateDelay += amount;
 }

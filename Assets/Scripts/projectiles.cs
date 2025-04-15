@@ -8,8 +8,8 @@ public class projectiles : MonoBehaviour
     private List<GameObject> Projectiles = new List<GameObject>();
     public GameObject projectilePrefab;
     public AudioClip laserSound;
-    public float fireRate = 0.5f;
     private float nextFire = 0.0f;
+    public Player player;
 
     public Inventory inventory; // Assign in inspector
     public TextMeshProUGUI ammoText; // Assign in inspector
@@ -26,7 +26,7 @@ public class projectiles : MonoBehaviour
             {
                 if (inventory.ConsumeAmmo("Laser Ammo", 1))
                 {
-                    nextFire = Time.time + fireRate;
+                    nextFire = Time.time + player.fireRateDelay;
 
                     GameObject bullet = Instantiate(projectilePrefab, transform.position, transform.rotation);
                     Projectiles.Add(bullet);

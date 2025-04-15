@@ -15,6 +15,7 @@ public class CharacterStatsManager : MonoBehaviour
     public TextMeshProUGUI maxMovementText;
     public TextMeshProUGUI skillPointGUI;
     public TextMeshProUGUI criticalChanceText;
+    public TextMeshProUGUI rateOfFireText;
 
     GameObject player;
     Player playerScript;
@@ -46,6 +47,7 @@ public class CharacterStatsManager : MonoBehaviour
             minDmg.text = playerScript.minDamage.ToString("0");
             maxDmg.text = playerScript.maxDamage.ToString("0");
             criticalChanceText.text = playerScript.criticalChance.ToString("0") + "%";
+            rateOfFireText.text = (1f / playerScript.fireRateDelay).ToString("0.0") + " /s";
 
         }
     }

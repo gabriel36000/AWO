@@ -5650,7 +5650,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1577965321832425}
         m_TargetAssemblyTypeName: Player, Assembly-CSharp
-        m_MethodName: IncreaseCritcalChance
+        m_MethodName: IncreaseCriticalChance
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -46474,7 +46474,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1118121103}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1577965321832425}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: IncreaseRateOfFire
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1118121103
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72385,9 +72397,12 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   healingTextGameObject: {fileID: 5301794707348302735, guid: f8aff9e3995e1ed4abb5c3f699759c9d,
     type: 3}
+  shieldTextGameObject: {fileID: 5301794707348302735, guid: c1f049ec48254cb4bb63901a16220a42,
+    type: 3}
   explosion: {fileID: 1127351165}
   volumeMaker: {fileID: 0}
   explosionSound: {fileID: 8300000, guid: 7e90eeb600b999e4283d694e2e42fdcd, type: 3}
+  fireRateDelay: 0.5
   tmpHp: {fileID: 256120809}
   hpSkill: 0
   tmpShield: {fileID: 1736683118}
@@ -72399,6 +72414,8 @@ MonoBehaviour:
   speedText: {fileID: 1512614729}
   criticalSkill: 0
   criticalText: {fileID: 361097761}
+  rateOfFireSkill: 0
+  rateOfFireText: {fileID: 1245323840}
 --- !u!114 &1577965321832426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72419,6 +72436,7 @@ MonoBehaviour:
   maxMovementText: {fileID: 1313982948}
   skillPointGUI: {fileID: 793271973}
   criticalChanceText: {fileID: 1265615441}
+  rateOfFireText: {fileID: 53938240}
 --- !u!114 &1577965321832427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72630,7 +72648,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1912416879857922, guid: 10fb6d7c8aa9a1c4eb63c184b12619d7,
     type: 3}
   laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
-  fireRate: 0.5
+  player: {fileID: 1577965321832425}
   inventory: {fileID: 1452696884}
   ammoText: {fileID: 563796090}
 --- !u!114 &114443347229419777
@@ -72648,7 +72666,7 @@ MonoBehaviour:
   projectilePrefab: {fileID: 1912416879857922, guid: 10fb6d7c8aa9a1c4eb63c184b12619d7,
     type: 3}
   laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
-  fireRate: 0.5
+  player: {fileID: 1577965321832425}
   inventory: {fileID: 1452696884}
   ammoText: {fileID: 563796090}
 --- !u!114 &114495308664285811
