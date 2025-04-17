@@ -44,6 +44,8 @@ public class LaserDamageEnemy : MonoBehaviour
         {
             if (col.CompareTag("Player"))
             {
+                int finalDamage = damage;
+
                 if (playerScript.currentShield > 0)
                 {
                     VolumeMaker.Play2DSoundIfCloseToCamera(shieldHitSound, transform.position, 20f, 0.5f);
@@ -52,34 +54,36 @@ public class LaserDamageEnemy : MonoBehaviour
                 }
                 else if (playerScript != null)
                 {
+
                     VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
-                    playerScript.currentHealth -= damage;
+                    finalDamage = Mathf.RoundToInt(damage * (1f - (playerScript.currentArmor / 100f)));
+                    playerScript.currentHealth -= finalDamage;
                 }
-            }
-            else if (col.CompareTag("Friendly"))
-            {
-                Friendly friendlyAI = col.GetComponent<Friendly>();
-                if (friendlyAI != null)
+                else if (col.CompareTag("Friendly"))
                 {
-                    VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f  , 0.1f);
-                    friendlyAI.currentHealth -= damage;
+                    Friendly friendlyAI = col.GetComponent<Friendly>();
+                    if (friendlyAI != null)
+                    {
+                        VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
+                        friendlyAI.currentHealth -= damage;
+                    }
                 }
-            }
 
-            if (damageEffect != null)
-            {
-                GameObject instance = Instantiate(damageEffect, transform.position, transform.rotation);
-                Destroy(instance, 1f);
-            }
+                if (damageEffect != null)
+                {
+                    GameObject instance = Instantiate(damageEffect, transform.position, transform.rotation);
+                    Destroy(instance, 1f);
+                }
 
-            if (PopUpPreFab != null)
-            {
-                GameObject PopUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
-                PopUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = damage.ToString();
-                Destroy(PopUpDamage, 0.7f);
-            }
+                if (PopUpPreFab != null)
+                {
+                    GameObject PopUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
+                    PopUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = finalDamage.ToString();
+                    Destroy(PopUpDamage, 0.7f);
+                }
 
-            Destroy(gameObject); // Destroy the projectile on hit
+                Destroy(gameObject); // Destroy the projectile on hit
+            }
         }
     }
 }

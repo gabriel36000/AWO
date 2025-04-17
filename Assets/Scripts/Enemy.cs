@@ -158,7 +158,8 @@ public class Enemy : MonoBehaviour
             {
                 if (IsVisibleToCamera())
                 {
-                    levelSystem.xp += xpValue;
+                    levelSystem.currentXP += xpValue;
+                    levelSystem.totalXP += xpValue;
                     money.money += UnityEngine.Random.Range(moneyValueLow, moneyValueHigh);
                     print("money" + money.money);
                     GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);

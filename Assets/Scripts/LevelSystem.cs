@@ -4,83 +4,104 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class LevelSystem : MonoBehaviour {
-    public int xp = 0;
-    public int level = 0;
-    public int[] xpNeeded = { 100, 200, 300, 400 };
-    int[] levelHealth = { 10, 30, 50, 100 };
-    int[] levelShield = { 100, 200, 300, 400 };
+public class LevelSystem : MonoBehaviour
+{
+    public int level = 1;
+    public int currentXP = 0;
+    public int totalXP = 0;
+    public int maxLevel = 100;
+
     public TextMeshPro levelText;
-    public Image xpBackground;
-    BoxCollider2D bx;
+    public Image xpBar;
+
     Player player;
     CharacterStatsManager statsManager;
 
-
-    void Start() {
+    void Start()
+    {
         player = GetComponent<Player>();
-        statsManager =  GetComponent<CharacterStatsManager>();
-        bx = GetComponent<BoxCollider2D>();
-        
-
-
-
+        statsManager = GetComponent<CharacterStatsManager>();
+        UpdateUI();
     }
 
-    void CheckLevel() {
-        if (level > xpNeeded.Length - 1) {
-
-            return;
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            AddXP(25);
         }
-        if (xp >= xpNeeded[level]) {
-            Levelup();
+        UpdateUI();
+    }
+
+    public void AddXP(int amount)
+    {
+        totalXP += amount;
+        currentXP += amount;
+
+        while (currentXP >= GetXPForLevel(level) && level < maxLevel)
+        {
+            currentXP -= GetXPForLevel(level);
             level++;
-            print("Level up");
+            LevelUp();
+        }
+
+        UpdateUI();
+    }
+
+    void LevelUp()
+    {
+        statsManager.currentSkillPoints++;
+        player.SetMaxHealth(GetHealthForLevel(level));
+        player.SetMaxShield(GetShieldForLevel(level));
+        Debug.Log("Level Up! Now level: " + level);
+    }
+
+    void UpdateUI()
+    {
+        levelText.text = "Level: " + level;
+        int xpForNext = GetXPForLevel(level);
+        if (xpForNext > 0)
+        {
+            xpBar.fillAmount = (float)currentXP / xpForNext;
+        }
+        else
+        {
+            xpBar.fillAmount = 1f; // Just fill bar if you're at max level
         }
     }
-    void Update() {
 
-        
-        if (level == 0) {
-          xpBackground.fillAmount = (float)(xp) / (xpNeeded[level]);
-
-        }
-        else {
-            
-            xpBackground.fillAmount = (float)(xp - xpNeeded[level - 1]) / (xpNeeded[level] - xpNeeded[level - 1]);
-        }
-        
-        CheckLevel();
-        if (Input.GetKeyDown(KeyCode.K)) {
-            xp += 10;
-            print(xp);
-        }
-        
-
+    int GetXPForLevel(int lvl)
+    {
+        float baseXP = 100f;
+        float exponent = 1.2f;
+        return Mathf.RoundToInt(baseXP * Mathf.Pow(lvl, exponent));
     }
-    public void Levelup() {
-        levelText.text = "Level: " + (level + 2);
-        player.SetMaxHealth(levelHealth[level]);
-        player.SetMaxShield(levelShield[level]);
-        statsManager.currentSkillPoints += 1;
-        
-        
-        
 
+    int GetHealthForLevel(int lvl)
+    {
+        return 100 + lvl * 10;
     }
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if(collision.tag == "XP") {
-            xp += 40;
-            print(xp);
+
+    int GetShieldForLevel(int lvl)
+    {
+        return 200 + lvl * 20;
+    }
+
+    public void penalty()
+    {
+        if (player.currentHealth <= 0)
+        {
+            currentXP /= 2;
+            currentXP = Mathf.Clamp(currentXP / 2, 0, GetXPForLevel(level));
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("XP"))
+        {
+            AddXP(40);
             Destroy(collision.gameObject);
-        }
-    }
-    public void penalty() {
-        if (player.currentHealth <= 0) {
-            xp /= 2;
-            
-            
-            
         }
     }
 }

@@ -20082,11 +20082,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078e3ae071285164c9be1738f8fd0933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  xp: 0
-  level: 0
-  xpNeeded: 64000000c80000002c01000090010000
+  level: 1
+  currentXP: 0
+  totalXP: 0
+  maxLevel: 100
   levelText: {fileID: 1240996760}
-  xpBackground: {fileID: 1146247341}
+  xpBar: {fileID: 1146247341}
 --- !u!1 &422141734
 GameObject:
   m_ObjectHideFlags: 0
@@ -62733,7 +62734,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1643797010}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1577965321832425}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: IncreaseArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1643797010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72339,8 +72352,7 @@ MonoBehaviour:
   bonusDamage: 0
   bonusSpeed: 0
   bonusCritChance: 0
-  Name: 
-  Exp: 0
+  bonusArmor: 0
   maxHealth: 100
   currentHealth: 0
   healthText: {fileID: 198292888}
@@ -72388,7 +72400,7 @@ MonoBehaviour:
   minDamage: 10
   maxDamage: 25
   damage: 0
-  criticalChance: 50
+  criticalChance: 0
   healthBar1: {fileID: 0}
   shieldBar1: {fileID: 0}
   player: {fileID: 0}
@@ -72403,6 +72415,7 @@ MonoBehaviour:
   volumeMaker: {fileID: 0}
   explosionSound: {fileID: 8300000, guid: 7e90eeb600b999e4283d694e2e42fdcd, type: 3}
   fireRateDelay: 0.5
+  currentArmor: 0
   tmpHp: {fileID: 256120809}
   hpSkill: 0
   tmpShield: {fileID: 1736683118}
@@ -72416,6 +72429,8 @@ MonoBehaviour:
   criticalText: {fileID: 361097761}
   rateOfFireSkill: 0
   rateOfFireText: {fileID: 1245323840}
+  armorSkill: 0
+  armorText: {fileID: 227092629}
 --- !u!114 &1577965321832426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72437,6 +72452,7 @@ MonoBehaviour:
   skillPointGUI: {fileID: 793271973}
   criticalChanceText: {fileID: 1265615441}
   rateOfFireText: {fileID: 53938240}
+  armorText: {fileID: 1067202930}
 --- !u!114 &1577965321832427
 MonoBehaviour:
   m_ObjectHideFlags: 0

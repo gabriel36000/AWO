@@ -5282,7 +5282,7 @@ MonoBehaviour:
   player: {fileID: 0}
   currentHealth: 0
   maxHealth: 100
-  xpValue: 10
+  xpValue: 25
   explosion: {fileID: 7705086529208587422}
   enemyName: {fileID: 7705086529892060044}
   enemyHealth: {fileID: 8142342643250123687}

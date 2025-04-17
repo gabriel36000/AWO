@@ -14,10 +14,12 @@ public class Player : MonoBehaviour
     public int bonusDamage = 0;
     public int bonusSpeed = 0;
     public int bonusCritChance = 0;
+    public int bonusArmor = 0;
     // Exp
 
-    public string Name;
-    public int Exp;
+    private string Name;
+    private int Exp;
+    private int totalExp;
 
     // Health
     public int maxHealth = 100;
@@ -60,6 +62,7 @@ public class Player : MonoBehaviour
     public VolumeMaker volumeMaker;
     public AudioClip explosionSound;
     public float fireRateDelay = 0.5f;
+    public float currentArmor = 0;
 
     LevelSystem levelSystem;
 
@@ -78,6 +81,8 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI criticalText;
     public int rateOfFireSkill = 0;
     public TextMeshProUGUI rateOfFireText;
+    public int armorSkill = 0;
+    public TextMeshProUGUI armorText;
 
     // Saving variables
     private int Hp;
@@ -248,7 +253,9 @@ public class Player : MonoBehaviour
     // ========== Saving & Loading ==========
     public void Save()
     {
-        Exp = levelSystem.xp;
+        Name = "PlayerOne";
+        Exp = levelSystem.currentXP;
+        totalExp = levelSystem.totalXP;
         Hp = currentHealth;
         Shield = currentShield;
 
@@ -257,7 +264,6 @@ public class Player : MonoBehaviour
         playerJson.Add("Exp", Exp);
         playerJson.Add("HP", Hp);
         playerJson.Add("Shield", Shield);
-
         JSONArray position = new JSONArray();
         position.Add(transform.position.x);
         position.Add(transform.position.y);
@@ -289,7 +295,8 @@ public class Player : MonoBehaviour
 
         currentHealth = Hp;
         currentShield = Shield;
-        levelSystem.xp = Exp;
+        levelSystem.currentXP = Exp;
+        levelSystem.totalXP = totalExp;
     }
 
     // ========== Skill Upgrades ==========
@@ -374,6 +381,20 @@ public class Player : MonoBehaviour
             Debug.Log("Max critical chance reached!");
         }
     }
+    public void IncreaseArmor()
+    {
+        if (stats.currentSkillPoints > 0)
+        {
+            stats.currentSkillPoints--;
+            armorSkill++;
+            float newArmor = currentArmor + 0.25f; 
+            float armorIncrease = newArmor - currentArmor;
+            SetArmor(Mathf.RoundToInt(armorIncrease));
+            currentArmor = newArmor;
+            armorText.text = armorSkill.ToString();
+            tmp.text = stats.currentSkillPoints.ToString();
+        }
+    }
 
     // ========== Stat Setters ==========
     public void SetMaxHealth(int amount) => maxHealth += amount;
@@ -384,4 +405,6 @@ public class Player : MonoBehaviour
     public void SetBoostSpeed(int amount) => playerMovement.MaxBoostspeed += amount;
     public void SetCriticalChance(int amount) => criticalChance += amount;
     public void SetRateOfFire(int amount) => fireRateDelay += amount;
+    
+    public void SetArmor(int amount) => currentArmor += amount;
 }
