@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     private Image healthBarColor;
     public GameObject smoke;
     public float healthRegenRate = 1f;
-    private float lastHealthRegenTime;
+    public float lastHealthRegenTime;
     public GameObject lowHealthEffect;
     public Gradient healthGradient;
 

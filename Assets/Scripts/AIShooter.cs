@@ -79,15 +79,32 @@ public class AIShooter : MonoBehaviour
         Vector3 shootingDirection = (target.transform.position - transform.position).normalized;
         Quaternion rotation = Quaternion.LookRotation(Vector3.forward, shootingDirection);
 
-        // Instantiate the bullet
         GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, rotation);
 
-        // Assign the Friendly to the laser
         FriendlyLaserDamage laserScript = bulletInstance.GetComponent<FriendlyLaserDamage>();
-        Friendly friendly = GetComponent<Friendly>(); // Get the friendly who is shooting
-        if (laserScript != null && friendly != null)
+
+        // Assign shooter properly: Friendly OR FriendlyTurret
+        if (laserScript != null)
         {
-            laserScript.Setup(friendly);
+            // Check if this GameObject has a Friendly component
+            Friendly friendly = GetComponent<Friendly>();
+            if (friendly != null)
+            {
+                laserScript.Setup(friendly);
+            }
+            else
+            {
+                // If not Friendly, maybe it's a turret!
+                FriendlyTurret turret = GetComponent<FriendlyTurret>();
+                if (turret != null)
+                {
+                    laserScript.Setup(turret);
+                }
+                else
+                {
+                    Debug.LogWarning("Shooter has neither Friendly nor FriendlyTurret component!");
+                }
+            }
         }
 
         if (IsVisibleToCamera())
@@ -95,7 +112,6 @@ public class AIShooter : MonoBehaviour
             AudioSource.PlayClipAtPoint(laserSound, transform.position);
         }
 
-        // Destroy the instantiated bullet after 4 seconds
         Destroy(bulletInstance, 4f);
     }
     bool IsVisibleToCamera()

@@ -20036,7 +20036,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7705086529892060040}
   - component: {fileID: 7705086529892060045}
-  - component: {fileID: 7705086529892060046}
   - component: {fileID: 7705086529892060044}
   m_Layer: 1
   m_Name: LevelText
@@ -20106,14 +20105,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!222 &7705086529892060046
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7705086529892060083}
-  m_CullTransparentMesh: 0
 --- !u!114 &7705086529892060044
 MonoBehaviour:
   m_ObjectHideFlags: 0

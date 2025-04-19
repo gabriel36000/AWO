@@ -160,10 +160,10 @@ public class Enemy : MonoBehaviour
                 {
                     levelSystem.currentXP += xpValue;
                     levelSystem.totalXP += xpValue;
-                    money.money += UnityEngine.Random.Range(moneyValueLow, moneyValueHigh);
-                    print("money" + money.money);
+                    int earned = UnityEngine.Random.Range(moneyValueLow, moneyValueHigh);
+                    money.AddMoney(earned);
                     GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
-                    PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + money.money.ToString();
+                    PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + earned.ToString();
 
                     Destroy(PopUpmoney, 2.7f);
                     explosion.SetActive(true);

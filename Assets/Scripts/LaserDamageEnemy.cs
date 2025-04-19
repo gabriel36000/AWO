@@ -40,50 +40,63 @@ public class LaserDamageEnemy : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.CompareTag("Player") || col.CompareTag("Friendly"))
+        if (col.CompareTag("Player"))
         {
-            if (col.CompareTag("Player"))
+            int finalDamage = damage;
+
+            if (playerScript.currentShield > 0)
             {
-                int finalDamage = damage;
-
-                if (playerScript.currentShield > 0)
-                {
-                    VolumeMaker.Play2DSoundIfCloseToCamera(shieldHitSound, transform.position, 20f, 0.5f);
-                    playerScript.currentShield -= damage;
-                    playerScript.lastShieldRegenTime = Time.time;
-                }
-                else if (playerScript != null)
-                {
-
-                    VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
-                    finalDamage = Mathf.RoundToInt(damage * (1f - (playerScript.currentArmor / 100f)));
-                    playerScript.currentHealth -= finalDamage;
-                }
-                else if (col.CompareTag("Friendly"))
-                {
-                    Friendly friendlyAI = col.GetComponent<Friendly>();
-                    if (friendlyAI != null)
-                    {
-                        VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
-                        friendlyAI.currentHealth -= damage;
-                    }
-                }
-
-                if (damageEffect != null)
-                {
-                    GameObject instance = Instantiate(damageEffect, transform.position, transform.rotation);
-                    Destroy(instance, 1f);
-                }
-
-                if (PopUpPreFab != null)
-                {
-                    GameObject PopUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
-                    PopUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = finalDamage.ToString();
-                    Destroy(PopUpDamage, 0.7f);
-                }
-
-                Destroy(gameObject); // Destroy the projectile on hit
+                VolumeMaker.Play2DSoundIfCloseToCamera(shieldHitSound, transform.position, 20f, 0.5f);
+                playerScript.currentShield -= damage;
+                playerScript.lastShieldRegenTime = Time.time;
             }
+            else if (playerScript != null)
+            {
+                VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
+                finalDamage = Mathf.RoundToInt(damage * (1f - (playerScript.currentArmor / 100f)));
+                playerScript.currentHealth -= finalDamage;
+            }
+
+            ShowDamageEffect(finalDamage);
+            Destroy(gameObject);
+        }
+        else if (col.CompareTag("Friendly"))
+        {
+            int finalDamage = damage;
+
+            Friendly friendlyAI = col.GetComponent<Friendly>();
+            if (friendlyAI != null)
+            {
+                VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
+                friendlyAI.currentHealth -= finalDamage;
+            }
+            else
+            {
+                FriendlyTurret turret = col.GetComponent<FriendlyTurret>();
+                if (turret != null)
+                {
+                    VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
+                    turret.currentHealth -= finalDamage;
+                }
+            }
+
+            ShowDamageEffect(finalDamage);
+            Destroy(gameObject);
+        }
+    }
+    void ShowDamageEffect(int amount)
+    {
+        if (damageEffect != null)
+        {
+            GameObject instance = Instantiate(damageEffect, transform.position, transform.rotation);
+            Destroy(instance, 1f);
+        }
+
+        if (PopUpPreFab != null)
+        {
+            GameObject PopUpDamage = Instantiate(PopUpPreFab, transform.position, Quaternion.identity);
+            PopUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = amount.ToString();
+            Destroy(PopUpDamage, 0.7f);
         }
     }
 }
