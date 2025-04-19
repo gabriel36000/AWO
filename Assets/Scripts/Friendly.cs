@@ -20,7 +20,6 @@ public class Friendly : MonoBehaviour
     public int maxHealth;
     public int xpValue;
     public GameObject explosion;
-    public Image friendlyHealth;
     public float gotoRange;
     private Rigidbody2D rigidbody;
     private Vector2 patrolTarget;
@@ -42,7 +41,6 @@ public class Friendly : MonoBehaviour
 
     void Update()
     {
-        friendlyHealth.fillAmount = (float)currentHealth / maxHealth;
         FindClosestEnemy();
         damage = Random.Range(minDamage, maxDamage);
 
