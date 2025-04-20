@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +7,7 @@ public class EnemyManager : MonoBehaviour
     public EnemyData[] enemyTypes; // Array of different enemy types (set in the editor)
     public int maxEnemies = 20; // Maximum number of enemies on the map
     public float spawnInterval = 3f; // Time between spawns
+    public bool bossPresent = false;
 
     private List<GameObject> activeEnemies = new List<GameObject>();
     private float spawnTimer = 0f;
@@ -29,9 +30,21 @@ public class EnemyManager : MonoBehaviour
         // Choose an enemy based on rarity
         EnemyData selectedEnemy = GetRandomEnemyBasedOnRarity();
 
+        // ✅ Prevent spawning a boss if one is already present
+        if (selectedEnemy.enemyPrefab.CompareTag("Boss") && bossPresent)
+        {
+            return;
+        }
+
         // Spawn the enemy
         GameObject newEnemy = Instantiate(selectedEnemy.enemyPrefab, GetRandomSpawnPosition(), Quaternion.identity);
         activeEnemies.Add(newEnemy);
+
+        // ✅ If it's a boss, set bossPresent to true
+        if (newEnemy.CompareTag("Boss"))
+        {
+            bossPresent = true;
+        }
     }
 
     EnemyData GetRandomEnemyBasedOnRarity()

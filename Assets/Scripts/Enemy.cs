@@ -154,31 +154,39 @@ public class Enemy : MonoBehaviour
 
     private void death()
     {
-            if (currentHealth <= 0)
+        if (currentHealth <= 0)
+        {
+            if (IsVisibleToCamera())
             {
-                if (IsVisibleToCamera())
-                {
-                    levelSystem.currentXP += xpValue;
-                    levelSystem.totalXP += xpValue;
-                    int earned = UnityEngine.Random.Range(moneyValueLow, moneyValueHigh);
-                    money.AddMoney(earned);
-                    GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
-                    PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + earned.ToString();
+                levelSystem.currentXP += xpValue;
+                levelSystem.totalXP += xpValue;
+                int earned = UnityEngine.Random.Range(moneyValueLow, moneyValueHigh);
+                money.AddMoney(earned);
+                GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
+                PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + earned.ToString();
 
-                    Destroy(PopUpmoney, 2.7f);
-                    explosion.SetActive(true);
-                    Instantiate(explosion, transform.position, transform.rotation);
-                    Destroy(gameObject);
-                }
-                VolumeMaker.Play2DSoundIfCloseToCamera(explosionSound, transform.position, 20f, 0.3f);
+                Destroy(PopUpmoney, 2.7f);
                 explosion.SetActive(true);
                 Instantiate(explosion, transform.position, transform.rotation);
                 Destroy(gameObject);
+            }
 
+            VolumeMaker.Play2DSoundIfCloseToCamera(explosionSound, transform.position, 20f, 0.3f);
+            explosion.SetActive(true);
+            Instantiate(explosion, transform.position, transform.rotation);
+            Destroy(gameObject);
 
-
+            // ✅ Mark boss as no longer present
+            if (CompareTag("Boss"))
+            {
+                EnemyManager manager = FindObjectOfType<EnemyManager>();
+                if (manager != null)
+                {
+                    manager.bossPresent = false;
+                }
             }
         }
+    }
     private void go()
     {
         if (target == null)
