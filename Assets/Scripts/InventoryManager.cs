@@ -13,28 +13,34 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-
         movement1 = FindObjectOfType<PlayerMovement>();
         health1 = FindObjectOfType<Player>();
         inventory.Items.RemoveAll(item => item is AmmoItem);
+
         // Always instantiate and then set stack manually
         AmmoItem newAmmo = Instantiate(ammoItemScriptableObject); // clone the SO
         newAmmo.currentStack = 120; // reset the clone's stack
-
         inventory.AddItem(newAmmo);
     }
 
-    private void Awake() {
+    private void Awake()
+    {
         inventory.OnItemRightClickEvent += EquipFromInventory;
         equpmentPanel.OnItemRightClickEvent += UnequipFromEquipPanel;
     }
-    private void UnequipFromEquipPanel(Item item) {
-        if (item is EquippableItem) {
+
+    private void UnequipFromEquipPanel(Item item)
+    {
+        if (item is EquippableItem)
+        {
             Unequip((EquippableItem)item);
         }
     }
-    private void EquipFromInventory(Item item) {
-        if(item is EquippableItem) {
+
+    private void EquipFromInventory(Item item)
+    {
+        if (item is EquippableItem)
+        {
             Equip((EquippableItem)item);
         }
     }
@@ -44,17 +50,21 @@ public class InventoryManager : MonoBehaviour
         if (inventory.RemoveItem(item))
         {
             EquippableItem previousItem;
+
             if (equpmentPanel.AddItem(item, out previousItem))
             {
+                // 🧼 Always unequip previous stats FIRST
                 if (previousItem != null)
                 {
+                    UnequipStats(previousItem);
                     inventory.AddItem(Instantiate(previousItem));
-                    UnequipStats(previousItem); // 💥 important: remove old stats
                 }
 
-                EquipStats(item); // 💥 apply new stats
+                // ✅ Apply new stats once
+                EquipStats(item);
 
-                item.Equip(this);
+                // REMOVE this line to prevent double-boost
+                // item.Equip(this);
             }
             else
             {
@@ -71,12 +81,15 @@ public class InventoryManager : MonoBehaviour
             inventory.AddItem(Instantiate(item));
         }
     }
+
     private void EquipStats(EquippableItem item)
     {
         if (item == null) return;
 
         if (health1 != null)
         {
+            Debug.Log($"[EquipStats] Adding +{item.health} HP, +{item.shield} Shield");
+
             health1.maxHealth += item.health;
             health1.maxShield += item.shield;
             health1.minDamage += item.damage;

@@ -19,12 +19,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
         set
         {
             _item = value;
+
             if (_item == null)
             {
                 image.enabled = false;
-                if (stackText != null) // <<< ADD THIS LINE
+                image.sprite = null;
+
+                if (stackText != null)
                 {
                     stackText.text = "";
+                    stackText.enabled = false;
                 }
             }
             else
@@ -34,9 +38,16 @@ public class ItemSlot : MonoBehaviour, IPointerClickHandler, IPointerEnterHandle
 
                 if (stackText != null)
                 {
-                    stackText.text = (_item.isStackable && _item.currentStack > 0)
-                        ? _item.currentStack.ToString()
-                        : "";
+                    if (_item.isStackable && _item.currentStack > 1)
+                    {
+                        stackText.text = _item.currentStack.ToString();
+                        stackText.enabled = true;
+                    }
+                    else
+                    {
+                        stackText.text = "";
+                        stackText.enabled = false;
+                    }
                 }
             }
         }

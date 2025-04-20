@@ -31,6 +31,9 @@ public class Friendly : MonoBehaviour
     private float healTimer = 0f;
     public VolumeMaker volumeMaker;
     public AudioClip explosionSound;
+    public Transform healthCenter;
+    public GameObject healingTextGameObject;
+    public bool isInHealingCenter = false;
 
     void Start()
     {
@@ -44,7 +47,22 @@ public class Friendly : MonoBehaviour
         FindClosestEnemy();
         damage = Random.Range(minDamage, maxDamage);
 
-        if (currentHealth >= maxHealth * 0.25f)
+        if (isRetreating)
+        {
+            RetreatAndHeal();
+
+            // ✅ Exit healing only when fully healed AND inside health center
+            if (currentHealth >= maxHealth && isInHealingCenter)
+            {
+                isRetreating = false;
+            }
+        }
+        else if (currentHealth < maxHealth * 0.25f)
+        {
+            isRetreating = true;
+            RetreatAndHeal();
+        }
+        else
         {
             if (target != null && Vector2.Distance(target.position, transform.position) <= gotoRange)
             {
@@ -54,10 +72,6 @@ public class Friendly : MonoBehaviour
             {
                 randomPatrol();
             }
-        }
-        else
-        {
-            RetreatAndHeal();
         }
 
         death();
@@ -92,42 +106,42 @@ public class Friendly : MonoBehaviour
 
     private void RetreatAndHeal()
     {
-        if (target == null) return;
+        if (healthCenter == null) return;
 
-        float distanceToEnemy = Vector2.Distance(transform.position, target.position);
+        isRetreating = true;
 
-        if (!isRetreating)
+        float distanceToCenter = Vector2.Distance(transform.position, healthCenter.position);
+
+        // ✅ Heal regardless of whether you're in the health center or not
+        healTimer += Time.deltaTime;
+        if (healTimer >= healInterval && currentHealth < maxHealth)
         {
-            isRetreating = true;
+            int healAmount = Mathf.CeilToInt(maxHealth * 0.005f); // 0.5% heal rate
+            currentHealth = Mathf.Min(currentHealth + healAmount, maxHealth);
+            healTimer = 0f;
+
+            if (healingTextGameObject != null)
+            {
+                GameObject healPopUp = Instantiate(healingTextGameObject, transform.position, Quaternion.identity);
+                healPopUp.transform.GetChild(0).GetComponent<TextMeshPro>().text = "+" + healAmount;
+                Destroy(healPopUp, 1f);
+            }
         }
 
-        if (distanceToEnemy < safeDistance)
+        if (distanceToCenter > 0.5f)
         {
-            Vector2 retreatDirection = (transform.position - target.position).normalized;
-            float targetAngle = Mathf.Atan2(retreatDirection.y, retreatDirection.x) * Mathf.Rad2Deg - 90;
+            Vector2 directionToCenter = (healthCenter.position - transform.position).normalized;
+            float targetAngle = Mathf.Atan2(directionToCenter.y, directionToCenter.x) * Mathf.Rad2Deg - 90;
             transform.rotation = Quaternion.Euler(0, 0, targetAngle);
-            rigidbody.velocity = retreatDirection * speed;
+            rigidbody.velocity = directionToCenter * speed;
             speed = Mathf.Lerp(speed, maxSpeed, 0.02f);
         }
         else
         {
             speed = Mathf.Lerp(speed, 0f, 0.01f);
-            rigidbody.velocity = transform.up * speed;
-            if (speed <= 0.1f)
-            {
-                isRetreating = false;
-            }
-        }
+            rigidbody.velocity = Vector2.zero;
 
-        // Healing during retreat
-        if (currentHealth < maxHealth)
-        {
-            healTimer += Time.deltaTime;
-            if (healTimer >= healInterval)
-            {
-                currentHealth = Mathf.Min(currentHealth + healRate, maxHealth);
-                healTimer = 0f;
-            }
+            // ❌ Don't stop retreating yet — wait until fully healed
         }
     }
 
@@ -182,6 +196,21 @@ public class Friendly : MonoBehaviour
             explosion.SetActive(true);
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("HealthCenter"))
+        {
+            isInHealingCenter = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("HealthCenter"))
+        {
+            isInHealingCenter = false;
         }
     }
 }

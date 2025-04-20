@@ -15080,7 +15080,7 @@ MonoBehaviour:
   enemyName: {fileID: 5130545678474266981}
   enemyHealth: {fileID: 6710858237076476238}
   bulletDamage: 25
-  gotoRange: 10
+  gotoRange: 20
   player1: {fileID: 0}
   moneyValueLow: 0
   moneyValueHigh: 0
@@ -15154,7 +15154,7 @@ MonoBehaviour:
   rotationoffset: {x: 0, y: 0, z: 0}
   bulletPrefab: {fileID: 4709330154682315108, guid: b8e49448d35895d4e9172d4edb9e337e,
     type: 3}
-  attackRange: 10
+  attackRange: 20
   fireDelay: 0.5
   laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
   enemy: {fileID: 0}
@@ -15174,7 +15174,7 @@ MonoBehaviour:
   rotationoffset: {x: 0, y: 0, z: 0}
   bulletPrefab: {fileID: 4709330154682315108, guid: b8e49448d35895d4e9172d4edb9e337e,
     type: 3}
-  attackRange: 10
+  attackRange: 20
   fireDelay: 0.5
   laserSound: {fileID: 8300000, guid: 160171fe8fc29444bb97530a8d3557ae, type: 3}
   enemy: {fileID: 0}

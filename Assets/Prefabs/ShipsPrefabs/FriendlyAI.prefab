@@ -5420,6 +5420,10 @@ MonoBehaviour:
   healInterval: 1
   volumeMaker: {fileID: 0}
   explosionSound: {fileID: 8300000, guid: 7e90eeb600b999e4283d694e2e42fdcd, type: 3}
+  healthCenter: {fileID: 5120415327790999818, guid: 19a0bc0cbc4946b4d913273f20767922,
+    type: 3}
+  healingTextGameObject: {fileID: 5301794707348302735, guid: f8aff9e3995e1ed4abb5c3f699759c9d,
+    type: 3}
 --- !u!1 &7705086529508003590
 GameObject:
   m_ObjectHideFlags: 0
