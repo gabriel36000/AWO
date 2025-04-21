@@ -42,6 +42,7 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     public VolumeMaker volumeMaker;
     public AudioClip explosionSound;
+    public string enemyType;
 
 
 
@@ -164,7 +165,11 @@ public class Enemy : MonoBehaviour
                 money.AddMoney(earned);
                 GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
                 PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + earned.ToString();
-
+                QuestManager questManager = FindObjectOfType<QuestManager>();
+                if (questManager != null)
+                {
+                    questManager.UpdateObjective(enemyType);
+                }
                 Destroy(PopUpmoney, 2.7f);
                 explosion.SetActive(true);
                 Instantiate(explosion, transform.position, transform.rotation);
@@ -176,7 +181,6 @@ public class Enemy : MonoBehaviour
             Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
 
-            // ✅ Mark boss as no longer present
             if (CompareTag("Boss"))
             {
                 EnemyManager manager = FindObjectOfType<EnemyManager>();
@@ -306,8 +310,7 @@ public class Enemy : MonoBehaviour
         float randomY = UnityEngine.Random.Range(minY, maxY);  // Y-axis within bounds
         patrolTarget = new Vector2(randomX, randomY);
 
-        // Debug: Print the patrol target coordinates
-        Debug.Log("New Patrol Target: " + patrolTarget);
+       
     }
 
     private void randomPatrol()
@@ -347,7 +350,7 @@ public class Enemy : MonoBehaviour
                 UnityEngine.Random.Range(minX, maxX),
                 UnityEngine.Random.Range(minY, maxY)
             );
-            Debug.Log($"Minion Patrol Target: {patrolTarget}, Boss Position: {bossTransform.position}");
+            
         }
 
         RotateTowards(patrolTarget);

@@ -89,7 +89,7 @@ public class EnemyShooting : MonoBehaviour
         }
 
         Destroy(bulletGo, 4f);
-        Debug.Log("Enemy shooting at: " + target.name);
+       
     }
     bool IsVisibleToCamera()
     {

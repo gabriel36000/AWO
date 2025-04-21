@@ -395,6 +395,14 @@ public class Player : MonoBehaviour
             tmp.text = stats.currentSkillPoints.ToString();
         }
     }
+    public void GainXP(int amount)
+    {
+        LevelSystem levelSystem = GetComponent<LevelSystem>();
+        if (levelSystem != null)
+        {
+            levelSystem.AddXP(amount);
+        }
+    }
 
     // ========== Stat Setters ==========
     public void SetMaxHealth(int amount) => maxHealth += amount;
