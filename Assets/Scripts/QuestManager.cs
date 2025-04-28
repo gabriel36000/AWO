@@ -11,7 +11,11 @@ public class QuestManager : MonoBehaviour
     public List<Quest> completedQuests = new List<Quest>();
 
     [Header("UI Elements")]
-    public GameObject questScreen; // Only handles open/close
+    public GameObject questScreen; // Your full quest screen panel
+    public Transform questHUDContent; // ➔ HUD panel (small one on main screen)
+    public GameObject questHUDEntryPrefab;
+
+    private List<GameObject> currentHUDEntries = new List<GameObject>(); // To clear old HUDs
 
     private void Start()
     {
@@ -56,6 +60,8 @@ public class QuestManager : MonoBehaviour
             activeQuests.Remove(completed);
             completedQuests.Add(completed);
         }
+
+        RefreshQuestHUD(); // 🛠 Update HUD after progress
     }
 
     public void GiveReward(Quest quest)
@@ -96,17 +102,17 @@ public class QuestManager : MonoBehaviour
             return;
         }
 
-        // Accept quest
         Quest questInstance = Instantiate(questTemplate);
         activeQuests.Add(questInstance);
         Debug.Log($"Accepted Quest: {questInstance.questName}");
 
-        // 🔥 Refresh UI if quest screen is open
         QuestScreenUI questScreenUI = FindObjectOfType<QuestScreenUI>();
         if (questScreenUI != null && questScreen.activeSelf)
         {
             questScreenUI.RefreshQuestList();
         }
+
+        RefreshQuestHUD(); // 🛠 Update HUD after new quest accepted
     }
 
     public void OpenQuestScreen()
@@ -128,6 +134,38 @@ public class QuestManager : MonoBehaviour
         if (questScreen != null)
         {
             questScreen.SetActive(false);
+        }
+    }
+
+    // 🛠 NEW: Updates the quest info shown on the player's HUD
+    private void RefreshQuestHUD()
+    {
+        if (questHUDContent == null) return;
+
+        // Destroy old HUD entries
+        foreach (GameObject entry in currentHUDEntries)
+        {
+            Destroy(entry);
+        }
+        currentHUDEntries.Clear();
+
+        // Spawn new HUD entries
+        foreach (var quest in activeQuests)
+        {
+            // 🔵 Quest Name (use same prefab)
+            GameObject questNameObj = Instantiate(questHUDEntryPrefab, questHUDContent);
+            TextMeshProUGUI questNameText = questNameObj.GetComponent<TextMeshProUGUI>();
+            questNameText.text = $"<b>{quest.questName}</b>"; // Bold to make it stand out
+            currentHUDEntries.Add(questNameObj);
+
+            // 🔵 Quest Objectives (use same prefab)
+            foreach (var obj in quest.objectives)
+            {
+                GameObject objectiveObj = Instantiate(questHUDEntryPrefab, questHUDContent);
+                TextMeshProUGUI objectiveText = objectiveObj.GetComponent<TextMeshProUGUI>();
+                objectiveText.text = $"- {obj.objectiveName}: {obj.currentAmount}/{obj.requiredAmount}";
+                currentHUDEntries.Add(objectiveObj);
+            }
         }
     }
 }
