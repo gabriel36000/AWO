@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class QuestGiver : MonoBehaviour
 {
     [Header("Quest Data")]
-    public List<Quest> questsOffered = new List<Quest>(); // ✅ NEW
+    public List<Quest> questsOffered = new List<Quest>();
 
     [Header("UI Panels")]
     public GameObject backgroundQuest;
@@ -23,9 +23,11 @@ public class QuestGiver : MonoBehaviour
     public QuestManager questManager;
     public Player player;
 
+    [Header("No Quest Message")]
+    public TextMeshProUGUI noQuestText;
+
     private Quest selectedQuest;
 
-    // ✅ Wrapper method with no parameters
     public void OpenQuestPanel()
     {
         acceptButton.gameObject.SetActive(false);
@@ -35,17 +37,24 @@ public class QuestGiver : MonoBehaviour
     public void OpenQuestList(List<Quest> quests)
     {
         backgroundQuest.SetActive(true);
+        noQuestText.gameObject.SetActive(false);
 
         // Clear old entries
         foreach (Transform child in questListContent)
+        {
             Destroy(child.gameObject);
+        }
+
+        int count = 0;
 
         // Populate list
         foreach (Quest quest in quests)
         {
-            // Skip quests already accepted
+            // Skip already accepted quests
             if (questManager.activeQuests.Exists(q => q.questName == quest.questName))
                 continue;
+
+            count++;
 
             Quest localQuest = quest;
 
@@ -55,6 +64,12 @@ public class QuestGiver : MonoBehaviour
 
             Button button = entry.GetComponent<Button>();
             button.onClick.AddListener(() => ShowQuestDetails(localQuest));
+        }
+
+        if (count == 0)
+        {
+            noQuestText.text = "No quest available";
+            noQuestText.gameObject.SetActive(true);
         }
     }
 
@@ -67,7 +82,9 @@ public class QuestGiver : MonoBehaviour
 
         string obj = "";
         foreach (var o in quest.objectives)
+        {
             obj += $"- {o.objectiveName}: {o.currentAmount}/{o.requiredAmount}\n";
+        }
         objectivesText.text = obj;
 
         LevelSystem levelSystem = player.GetComponent<LevelSystem>();
@@ -78,24 +95,38 @@ public class QuestGiver : MonoBehaviour
 
         if (canAccept)
         {
-            acceptButton.gameObject.SetActive(true); // ✅ Show it only if level is OK
+            acceptButton.gameObject.SetActive(true);
             acceptButton.onClick.RemoveAllListeners();
             acceptButton.onClick.AddListener(() =>
             {
                 questManager.AcceptQuest(quest);
-                OpenQuestList(questsOffered); // ✅ Refresh the list so the accepted one disappears
+
+                // 🧹 Clear detail panel
+                selectedQuest = null;
+                questNameText.text = "";
+                levelRequirementText.text = "";
+                objectivesText.text = "";
+                acceptButton.gameObject.SetActive(false);
+
+                // 🔁 Refresh the list (quest will no longer appear)
+                OpenQuestList(questsOffered);
             });
         }
         else
         {
-            acceptButton.gameObject.SetActive(false); // ❌ Hide if level too low
+            acceptButton.gameObject.SetActive(false);
         }
     }
 
     public void ClosePanel()
     {
         backgroundQuest.SetActive(false);
+
+        // 🧹 Clear selected quest + detail panel
+        selectedQuest = null;
+        questNameText.text = "";
+        levelRequirementText.text = "";
+        objectivesText.text = "";
+        acceptButton.gameObject.SetActive(false);
     }
-
 }
-

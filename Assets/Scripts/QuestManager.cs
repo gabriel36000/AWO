@@ -28,6 +28,7 @@ public class QuestManager : MonoBehaviour
         {
             questScreen.SetActive(false);
         }
+        RefreshQuestHUD();
     }
 
     public void UpdateObjective(string killedEnemyType)
@@ -55,13 +56,13 @@ public class QuestManager : MonoBehaviour
             }
         }
 
+        RefreshQuestHUD();
+
         foreach (var completed in questsToComplete)
         {
             activeQuests.Remove(completed);
             completedQuests.Add(completed);
-        }
-
-        RefreshQuestHUD(); // 🛠 Update HUD after progress
+        }// 🛠 Update HUD after progress
     }
 
     public void GiveReward(Quest quest)
@@ -102,7 +103,7 @@ public class QuestManager : MonoBehaviour
             return;
         }
 
-        Quest questInstance = Instantiate(questTemplate);
+        Quest questInstance = CloneQuest(questTemplate);
         activeQuests.Add(questInstance);
         Debug.Log($"Accepted Quest: {questInstance.questName}");
 
@@ -142,30 +143,54 @@ public class QuestManager : MonoBehaviour
     {
         if (questHUDContent == null) return;
 
-        // Destroy old HUD entries
+        // Clear old HUD entries
         foreach (GameObject entry in currentHUDEntries)
         {
             Destroy(entry);
         }
         currentHUDEntries.Clear();
 
-        // Spawn new HUD entries
+        // Create a single prefab entry for each active quest (name + objectives together)
         foreach (var quest in activeQuests)
         {
-            // 🔵 Quest Name (use same prefab)
-            GameObject questNameObj = Instantiate(questHUDEntryPrefab, questHUDContent);
-            TextMeshProUGUI questNameText = questNameObj.GetComponent<TextMeshProUGUI>();
-            questNameText.text = $"<b>{quest.questName}</b>"; // Bold to make it stand out
-            currentHUDEntries.Add(questNameObj);
+            GameObject entryObj = Instantiate(questHUDEntryPrefab, questHUDContent);
+            QuestEntryUI entryUI = entryObj.GetComponent<QuestEntryUI>();
 
-            // 🔵 Quest Objectives (use same prefab)
-            foreach (var obj in quest.objectives)
+            if (entryUI != null)
             {
-                GameObject objectiveObj = Instantiate(questHUDEntryPrefab, questHUDContent);
-                TextMeshProUGUI objectiveText = objectiveObj.GetComponent<TextMeshProUGUI>();
-                objectiveText.text = $"- {obj.objectiveName}: {obj.currentAmount}/{obj.requiredAmount}";
-                currentHUDEntries.Add(objectiveObj);
+                entryUI.Setup(quest);
             }
+            else
+            {
+                Debug.LogError("❌ questHUDEntryPrefab is missing the QuestEntryUI script.");
+            }
+
+            currentHUDEntries.Add(entryObj);
         }
+    }
+    private Quest CloneQuest(Quest template)
+    {
+        Quest newQuest = ScriptableObject.CreateInstance<Quest>();
+        newQuest.questName = template.questName;
+        newQuest.description = template.description;
+        newQuest.rewardXP = template.rewardXP;
+        newQuest.rewardCredits = template.rewardCredits;
+        newQuest.levelRequirement = template.levelRequirement;
+        newQuest.isCompleted = false;
+
+        newQuest.objectives = new List<QuestObjective>();
+        foreach (var obj in template.objectives)
+        {
+            QuestObjective newObj = new QuestObjective
+            {
+                objectiveName = obj.objectiveName,
+                targetEnemyType = obj.targetEnemyType,
+                requiredAmount = obj.requiredAmount,
+                currentAmount = 0
+            };
+            newQuest.objectives.Add(newObj);
+        }
+
+        return newQuest;
     }
 }
