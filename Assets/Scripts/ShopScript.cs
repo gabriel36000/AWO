@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,14 +13,25 @@ public class ShopScript : MonoBehaviour
     public PlayerMoney playerMoney;
     public Inventory playerInventory;
     public AmmoItem laserAmmoPrefab;
+    public GameObject friendlyPrefab;
+    public Transform player;
+    public float formationSpacing = 2.5f;
+    public Player player1;
+
+
+    private List<GameObject> hiredShips = new List<GameObject>();
     void Start()
     {
-        GameObject player = GameObject.FindWithTag("Player");
-        GameObject Inventory = GameObject.FindWithTag("Inventory");
-        if (player != null)
+        GameObject playerGO = GameObject.FindWithTag("Player");
+        GameObject inventoryGO = GameObject.FindWithTag("Inventory");
+
+        if (playerGO != null)
         {
-            playerMoney = player.GetComponent<PlayerMoney>();
-            playerInventory = Inventory.GetComponentInChildren<Inventory>();
+            playerMoney = playerGO.GetComponent<PlayerMoney>();
+            playerInventory = inventoryGO.GetComponentInChildren<Inventory>();
+
+            player = playerGO.transform; // ✅ assign to your public field
+            player1 = playerGO.GetComponent<Player>(); // ✅ assign the Player script
         }
     }
 
@@ -44,6 +55,29 @@ public class ShopScript : MonoBehaviour
                 int laserAmmo = playerInventory.GetTotalAmmo("Laser Ammo");
                 Debug.Log("Bought Laser Ammo. Total now: " + laserAmmo);
             }
+        }
+    }
+    public void HireShip()
+    {
+        int cost = 100;
+
+        if (player1.hiredFriendlies.Count >= player1.maxFriendlyShip)
+        {
+            Debug.Log("Max friendly ships reached.");
+            return;
+        }
+
+        if (playerMoney.SpendMoney(cost))
+        {
+            Vector3 spawnPos = player.transform.position + Vector3.right * 2;
+            GameObject newShip = Instantiate(friendlyPrefab, spawnPos, Quaternion.identity);
+
+            Friendly friendlyScript = newShip.GetComponent<Friendly>();
+            friendlyScript.isHired = true;
+            friendlyScript.followTarget = player.transform;
+            friendlyScript.formationOffset = new Vector2(2f * player1.hiredFriendlies.Count, -2f);
+
+            player1.hiredFriendlies.Add(newShip);
         }
     }
     void UpdateCoinUI()

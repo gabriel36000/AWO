@@ -63,6 +63,8 @@ public class Player : MonoBehaviour
     public AudioClip explosionSound;
     public float fireRateDelay = 0.5f;
     public float currentArmor = 0;
+    public int maxFriendlyShip = 1;
+    [HideInInspector] public List<GameObject> hiredFriendlies = new List<GameObject>();
 
     LevelSystem levelSystem;
 
