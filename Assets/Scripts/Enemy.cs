@@ -166,6 +166,7 @@ public class Enemy : MonoBehaviour
                 GameObject PopUpmoney = Instantiate(popUpPreFabMoney, transform.position, Quaternion.identity);
                 PopUpmoney.transform.GetChild(0).GetComponent<TextMeshPro>().text = "money: " + earned.ToString();
                 QuestManager questManager = FindObjectOfType<QuestManager>();
+                FindObjectOfType<AchievementManager>().UnlockAchievement("First Blood");
                 if (questManager != null)
                 {
                     questManager.UpdateObjective(enemyType);
