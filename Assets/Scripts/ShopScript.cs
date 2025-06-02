@@ -60,7 +60,7 @@ public class ShopScript : MonoBehaviour
     public void HireShip()
     {
         int cost = 100;
-
+        FindObjectOfType<AchievementManager>().UnlockAchievement("New Friend");
         if (player1.hiredFriendlies.Count >= player1.maxFriendlyShip)
         {
             Debug.Log("Max friendly ships reached.");
@@ -79,6 +79,7 @@ public class ShopScript : MonoBehaviour
 
             player1.hiredFriendlies.Add(newShip);
         }
+        
     }
     void UpdateCoinUI()
     {
