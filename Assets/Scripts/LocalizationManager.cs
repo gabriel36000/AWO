@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class LocalizationManager : MonoBehaviour
@@ -8,6 +9,10 @@ public class LocalizationManager : MonoBehaviour
 
     private Dictionary<string, string> localizedText;
     private string currentLanguage = "en";
+    public TMP_FontAsset defaultFont;
+    public TMP_FontAsset chineseFont;
+
+    public TMP_FontAsset CurrentFont { get; private set; }
 
     void Awake()
     {
@@ -35,6 +40,17 @@ public class LocalizationManager : MonoBehaviour
         }
 
         localizedText = Newtonsoft.Json.JsonConvert.DeserializeObject<Dictionary<string, string>>(langFile.text);
+
+        // Set appropriate font
+        switch (langCode)
+        {
+            case "zh":
+                CurrentFont = chineseFont;
+                break;
+            default:
+                CurrentFont = defaultFont;
+                break;
+        }
 
         Debug.Log($"Language {langCode} loaded with {localizedText.Count} entries.");
     }

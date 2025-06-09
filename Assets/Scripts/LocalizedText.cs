@@ -19,6 +19,7 @@ public class LocalizedText : MonoBehaviour
         if (textComponent != null)
         {
             textComponent.text = LocalizationManager.Instance.GetText(localizationKey);
+            textComponent.font = LocalizationManager.Instance.CurrentFont; // <- switch font
         }
     }
 
