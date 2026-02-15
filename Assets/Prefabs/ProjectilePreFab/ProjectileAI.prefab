@@ -294,6 +294,7 @@ MonoBehaviour:
   criticalMultiplier: 2
   volumeMaker: {fileID: 0}
   healthHitSound: {fileID: 8300000, guid: d77711c2b24785b4c975cb51b1b08bc4, type: 3}
+  shieldHitSound: {fileID: 8300000, guid: 3cda7304429350f438a8ea3ac5fbe60b, type: 3}
 --- !u!1 &53991466039495546
 GameObject:
   m_ObjectHideFlags: 0

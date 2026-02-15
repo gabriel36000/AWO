@@ -267,6 +267,7 @@ MonoBehaviour:
     type: 3}
   volumeMaker: {fileID: 0}
   healthHitSound: {fileID: 8300000, guid: d77711c2b24785b4c975cb51b1b08bc4, type: 3}
+  shieldSound: {fileID: 8300000, guid: 3cda7304429350f438a8ea3ac5fbe60b, type: 3}
   criticalMultiplier: 2
 --- !u!50 &7602479968384108182
 Rigidbody2D:

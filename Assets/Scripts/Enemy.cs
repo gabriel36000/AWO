@@ -14,12 +14,16 @@ public class Enemy : MonoBehaviour
     private Transform target;
     public GameObject player;
     public int currentHealth;
+    public int currentShield;
     public int maxHealth;
+    public int maxShield;
     public int xpValue;
     LevelSystem levelSystem;            //store scripts 
     public GameObject explosion;
+    public GameObject shieldEffect;
     public TextMeshPro enemyName;
     public Image enemyHealth;
+    public Image enemyShield;
     public int bulletDamage;
     public float gotoRange;
     public Transform player1;
@@ -31,7 +35,9 @@ public class Enemy : MonoBehaviour
     public GameObject popUpPreFabMoney;
     public bool isRetreating = false;
     private float healTimer = 0f;
+    private float shieldTimer = 0f;
     public float healRate = 0.01f;
+    public float shieldRate = 0.01f;
     public float safeDistance = 100f;
     private Vector2 patrolTarget;
     public bool isMinion;
@@ -43,6 +49,7 @@ public class Enemy : MonoBehaviour
     public VolumeMaker volumeMaker;
     public AudioClip explosionSound;
     public string enemyType;
+    public bool hasShield = false;
 
 
 
@@ -111,6 +118,12 @@ public class Enemy : MonoBehaviour
             enemyHealth.fillAmount = (float)currentHealth / maxHealth;
         }
 
+        if (hasShield && enemyShield != null && maxShield > 0) {
+            enemyShield.fillAmount = (float)currentShield / maxShield;
+        }
+
+
+
         // Find nearest friendly unit (if any)
         FindClosestFriendly();
 
@@ -139,7 +152,7 @@ public class Enemy : MonoBehaviour
         {
             Retreat();
         }
-
+        ShieldDown();
         // Check for death
         death();
     }
@@ -155,8 +168,7 @@ public class Enemy : MonoBehaviour
 
     private void death()
     {
-        if (currentHealth <= 0)
-        {
+        if (currentHealth <= 0 && (!hasShield || currentShield <= 0)) {
             if (IsVisibleToCamera())
             {
                 levelSystem.currentXP += xpValue;
@@ -284,8 +296,12 @@ public class Enemy : MonoBehaviour
                 if (healTimer >= 1f)
                 {
                     currentHealth += (int)healRate;
+                    currentShield += (int)shieldRate;
                     currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+                    currentShield = Mathf.Clamp(currentShield, 0, maxShield);
                     healTimer = 0f;
+                    shieldTimer = 0f;
+                    print("Healing... Current HP: " + currentHealth);
                     print("Healing... Current HP: " + currentHealth);
                 }
 
@@ -440,6 +456,7 @@ public class Enemy : MonoBehaviour
         }
 
         currentHealth = maxHealth;
+        currentShield = hasShield ? maxShield : 0;
     }
     bool IsVisibleToCamera()
     {
@@ -447,5 +464,13 @@ public class Enemy : MonoBehaviour
         return viewportPoint.x >= 0 && viewportPoint.x <= 1 &&
                viewportPoint.y >= 0 && viewportPoint.y <= 1 &&
                viewportPoint.z > 0;
+    }
+    private void ShieldDown() {
+        {
+            if (!hasShield || shieldEffect == null)
+                return;
+
+            shieldEffect.SetActive(currentShield > 0);
+        }
     }
 }

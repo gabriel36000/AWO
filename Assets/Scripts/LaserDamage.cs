@@ -13,6 +13,7 @@ public class LaserDamage : MonoBehaviour
     public GameObject PopUpPreFabCritcal;
     public VolumeMaker volumeMaker;
     public AudioClip healthHitSound;
+    public AudioClip shieldSound;
 
     public float criticalMultiplier = 2f; // How much to multiply damage on crit (2x by default)
 
@@ -77,9 +78,15 @@ public class LaserDamage : MonoBehaviour
                 popUpDamage.transform.GetChild(0).GetComponent<TextMeshPro>().text = finalDamage.ToString();
                 Destroy(popUpDamage, 0.7f);
             }
-            VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
             // Apply damage
-            col.GetComponent<Enemy>().currentHealth -= finalDamage;
+            if (col.GetComponent<Enemy>().currentShield > 0) {
+                col.GetComponent<Enemy>().currentShield -= finalDamage;
+                VolumeMaker.Play2DSoundIfCloseToCamera(shieldSound, transform.position, 20f, 0.1f);
+            }
+            else {
+                col.GetComponent<Enemy>().currentHealth -= finalDamage;
+                VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
+            }
 
             // Damage effect
             if (damageEffect != null)

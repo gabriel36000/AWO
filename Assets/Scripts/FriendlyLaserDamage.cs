@@ -14,6 +14,7 @@ public class FriendlyLaserDamage : MonoBehaviour
     public float criticalMultiplier = 2f;
     public VolumeMaker volumeMaker;
     public AudioClip healthHitSound;
+    public AudioClip shieldHitSound;
 
     // Setup for Friendly
     public void Setup(Friendly owner)
@@ -76,13 +77,19 @@ public class FriendlyLaserDamage : MonoBehaviour
                 Destroy(popUpDamage, 0.7f);
             }
 
-            VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
 
             // Damage enemy
             Enemy enemy = col.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.currentHealth -= finalDamage;
+                if (enemy.currentShield > 0) {
+                    enemy.currentShield -= finalDamage;
+                    VolumeMaker.Play2DSoundIfCloseToCamera(shieldHitSound, transform.position, 20f, 0.1f);
+                }
+                else {
+                    enemy.currentHealth -= finalDamage;
+                    VolumeMaker.Play2DSoundIfCloseToCamera(healthHitSound, transform.position, 20f, 0.1f);
+                }
             }
 
             // Damage effect
